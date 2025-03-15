@@ -1,0 +1,31 @@
+.statistics-section {
+  background-color: var(--primary-color);
+  padding: 4rem 2rem;
+  color: white;
+}
+
+.statistics-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 2rem;
+  text-align: center;
+}
+
+.statistic-item {
+  flex: 1;
+  min-width: 200px;
+}
+
+.statistic-value {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.statistic-label {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}

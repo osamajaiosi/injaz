@@ -1,0 +1,75 @@
+.home {
+  padding: 0;
+  margin: 0;
+  font-family: 'Tajawal', sans-serif;
+  color: #333;
+}
+
+/* Import shared component styles */
+@import '../components/home/styles/SharedStyles.css';
+
+/* Import all component styles */
+@import '../components/home/styles/HeroSection.css';
+@import '../components/home/styles/BenefitsSection.css';
+@import '../components/home/styles/ServicesSection.css';
+@import '../components/home/styles/StatisticsSection.css';
+@import '../components/home/styles/HowItWorksSection.css';
+@import '../components/home/styles/TestimonialsSection.css';
+@import '../components/home/styles/CTASection.css';
+
+/* Global responsive styles */
+@media (max-width: 1024px) {
+  .hero-section {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .hero-content {
+    padding: 4rem 2rem 2rem;
+    max-width: 100%;
+  }
+  
+  .search-box {
+    margin: 0 auto;
+  }
+  
+  .hero-buttons {
+    justify-content: center;
+  }
+  
+  .hero-image {
+    width: 100%;
+    height: 400px;
+  }
+  
+  .hero-image img {
+    clip-path: none;
+  }
+  
+  .step:not(:last-child)::after {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+  }
+  
+  .statistics-container {
+    flex-direction: column;
+    gap: 3rem;
+  }
+  
+  .statistic-item {
+    min-width: 100%;
+  }
+}
