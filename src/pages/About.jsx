@@ -1,8 +1,6 @@
 import { Eye, Target, Heart } from "lucide-react";
 import "./About.css";
 function About() {
-
-
   return (
     <div className="about-container">
       <div className="about-header">
@@ -12,11 +10,10 @@ function About() {
         </p>
       </div>
 
-
       <div className="about-content">
         <div className="about-section">
           <div className="icon-wrapper">
-            <Eye size={32} color="#4361ee" strokeWidth={2} />
+            <Eye size={32} color=" #cdcd04" strokeWidth={2} />
           </div>
           <h2>رؤيتنا</h2>
           <p>
@@ -27,7 +24,7 @@ function About() {
 
         <div className="about-section">
           <div className="icon-wrapper">
-            <Target size={32} color="#4361ee" strokeWidth={2} />
+            <Target size={32} color=" #cdcd04" strokeWidth={2} />
           </div>
           <h2>مهمتنا</h2>
           <p>
@@ -38,7 +35,7 @@ function About() {
 
         <div className="about-section">
           <div className="icon-wrapper">
-            <Heart size={32} color="#4361ee" strokeWidth={2} />
+            <Heart size={32} color=" #cdcd04" strokeWidth={2} />
           </div>
           <h2>قيمنا</h2>
           <ul>

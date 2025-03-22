@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0;
-  background: linear-gradient(135deg, var(--primary-color) 0%, #7c65f0 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, #cdcd04 100%);
   color: white;
   position: relative;
   overflow: hidden;
@@ -25,13 +25,13 @@
 }
 
 .highlight {
-  color: #ffeb3b;
+  color: white;
   position: relative;
   display: inline-block;
 }
 
 .highlight::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -2px;
   left: 0;
@@ -88,7 +88,7 @@
 }
 
 .search-btn:hover {
-  background-color: #3a53c5;
+  background-color: #cdcd04;
   transform: translateY(-2px);
 }
 
