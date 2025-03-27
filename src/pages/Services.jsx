@@ -1,9 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronLeft } from "lucide-react";
+import {
+  ChevronLeft,
+  BookOpen,
+  PenTool,
+  Code,
+  Calendar,
+  Heart,
+  Stethoscope,
+  Home,
+  ShoppingCart,
+  Globe,
+  Truck,
+  Users,
+} from "lucide-react";
+import axios from "axios";
 import "./Services.css";
 
-const Servicespage = ({ services }) => {
+// خريطة تطابق أسماء الخدمات مع الأيقونات
+const iconMap = {
+  تعليمة: BookOpen,
+  ابداعية: PenTool,
+  تقنية: Code,
+  فعاليات: Calendar,
+  الرعاية: Heart,
+  الصحية: Stethoscope,
+  المنزلية: Home,
+  التسويق: ShoppingCart,
+  الترجمة: Globe,
+  النقل: Truck,
+  متنوعة: Users,
+  مهنية: Users,
+};
+
+const ServicesPage = () => {
+  const [services, setServices] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(
+        "http://eallaenjazapi.runasp.net/api/ Name_Serves/GET_ALL_NAME_SERVES"
+      )
+      .then((response) => {
+        setServices(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching services:", error);
+      });
+  }, []);
+
   return (
     <section className="services-section">
       <div className="services-container">
@@ -13,31 +58,30 @@ const Servicespage = ({ services }) => {
         </div>
 
         <div className="services-grid">
-          {services.map((service, index) => {
-            const IconComponent = service.icon;
+          {services.map((service) => {
+            // تنظيف اسم الخدمة لإزالة المسافات الزائدة والتأكد من التطابق مع خريطة الأيقونات
+            const serviceName = service.name_Serves.trim();
+            const IconComponent = iconMap[serviceName] || ChevronLeft;
+
             return (
-              <div key={index} className="service-card">
+              <div key={service.id} className="service-card">
                 <div className="service-icon">
                   <IconComponent size={24} />
                 </div>
-                <h3>{service.name}</h3>
-                <p>{service.description}</p>
-                <Link to={service.path} className="service-link">
+                <h3>{serviceName}</h3>
+                <Link
+                  to={`/services/${encodeURIComponent(serviceName)}`}
+                  className="service-link"
+                >
                   اكتشف المزيد <ChevronLeft size={16} />
                 </Link>
               </div>
             );
           })}
         </div>
-
-        <div className="view-all-container">
-          <Link to="/services" className="view-all-btn">
-            عرض جميع الخدمات
-          </Link>
-        </div>
       </div>
     </section>
   );
 };
 
-export default Servicespage;
+export default ServicesPage;

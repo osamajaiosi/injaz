@@ -7,10 +7,10 @@ import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import StudentDashboard from "./pages/StudentDashboard";
-
-import "./App.css";
+import SubServicesPage from "./pages/SubServicesPage";
 import Servicespage from "./pages/Services";
-import { servicesData } from "./data/servicesData";
+import { servicesData, subServicesData } from "./data/servicesData";
+
 function App() {
   return (
     <Router>
@@ -27,6 +27,10 @@ function App() {
             <Route
               path="/servicespage"
               element={<Servicespage services={servicesData.slice(0, 6)} />}
+            />
+            <Route
+              path="/services/:serviceName"
+              element={<SubServicesPage subServices={subServicesData} />}
             />
           </Routes>
         </main>
