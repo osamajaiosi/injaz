@@ -14,6 +14,26 @@ import React from "react";
 
 export const servicesData = [
   {
+    name: "خدمات تعليمية",
+    path: "/services/educational",
+    description: "دروس خصوصية، مساعدة في الواجبات، وتحضير للامتحانات",
+    icon: BookOpen,
+  },
+
+  {
+    name: "خدمات الرعاية",
+    path: "/services/care",
+    description: "رعاية الأطفال والمسنين",
+    icon: Heart,
+  },
+
+  {
+    name: "خدمات تسويق",
+    path: "/services/marketing",
+    description: "تسويق رقمي وإدارة وسائل التواصل الاجتماعي",
+    icon: MessageSquare,
+  },
+  {
     name: "خدمات ترجمة",
     path: "/services/translation",
     description: "ترجمة وثائق ومحتوى",
