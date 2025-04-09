@@ -1,4 +1,4 @@
-import './StudentDashboard.css';
+import "./StudentDashboard.css";
 
 function StudentDashboard() {
   return (
@@ -7,8 +7,8 @@ function StudentDashboard() {
       <div className="dashboard-grid">
         <div className="dashboard-card">
           <h3>خدماتي</h3>
-          <p>لا توجد خدمات مضافة</p>
-          <button className="btn btn-primary">إضافة خدمة جديدة</button>
+          <p>اضف الخدمة الخاصة بك</p>
+          <button className="btn btn-primary">إضافة خدمة </button>
         </div>
         <div className="dashboard-card">
           <h3>الطلبات</h3>
@@ -17,9 +17,8 @@ function StudentDashboard() {
         <div className="dashboard-card">
           <h3>الإحصائيات</h3>
           <ul>
-            <li>عدد الخدمات: 0</li>
-            <li>عدد الطلبات: 0</li>
-            <li>التقييم العام: -</li>
+            <li>عدد الخدمات المنجزة: 0</li>
+            <li>عدد الطلبات : 0</li>
           </ul>
         </div>
       </div>
