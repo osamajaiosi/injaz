@@ -1,97 +1,75 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './Register.css';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-function Register() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    isStudent: false
-  });
+import { ChevronLeft, BookOpen, Brush, Code, Briefcase } from "lucide-react";
+import axios from "axios";
+import "./Services.css";
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // TODO: Implement registration logic
-  };
+const iconMap = {
+  تعليمة: BookOpen,
+  ابداعية: Brush,
+  تقنية: Code,
+  مهنية: Briefcase,
+};
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: type === 'checkbox' ? checked : value
-    }));
-  };
+const ServicesPage = () => {
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await axios.get(
+          "http://eallaenjazapi.runasp.net/api/ Name_Serves/GET_ALL_NAME_SERVES"
+        ); // استبدل بالرابط الصحيح
+        setServices(response.data);
+      } catch (error) {
+        console.error("خطأ في جلب البيانات:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchServices();
+  }, []);
 
   return (
-    <div className="register-container">
-      <div className="register-card">
-        <h2>إنشاء حساب جديد</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="name">الاسم الكامل</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">البريد الإلكتروني</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">كلمة المرور</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="confirmPassword">تأكيد كلمة المرور</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group checkbox-group">
-            <label>
-              <input
-                type="checkbox"
-                name="isStudent"
-                checked={formData.isStudent}
-                onChange={handleChange}
-              />
-              أنا طالب جامعي
-            </label>
-          </div>
-          <button type="submit" className="btn btn-primary">إنشاء حساب</button>
-        </form>
-        <p className="login-link">
-          لديك حساب بالفعل؟ <Link to="/login">تسجيل الدخول</Link>
-        </p>
-      </div>
-    </div>
-  );
-}
+    <section className="services-section">
+      <div className="services-container">
+        <div className="section-header">
+          <h2>خدماتنا المميزة</h2>
+          <p>مجموعة متنوعة من الخدمات المقدمة من طلاب متميزين</p>
+        </div>
 
-export default Register;
+        {loading ? (
+          <p>جاري تحميل البيانات...</p>
+        ) : (
+          <div className="services-grid">
+            {services.map((service) => {
+              const IconComponent = iconMap[service.name_Serves] || ChevronLeft; // أيقونة افتراضية
+              return (
+                <div key={service.id} className="service-card">
+                  <div className="service-icon">
+                    <IconComponent size={24} />
+                  </div>
+                  <h3>{service.name_Serves}</h3>
+                  <Link to={`/services/${service.id}`} className="service-link">
+                    اكتشف المزيد <ChevronLeft size={16} />
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        <div className="view-all-container">
+          <Link to="/services" className="view-all-btn">
+            عرض جميع الخدمات
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ServicesPage;
