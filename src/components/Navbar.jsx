@@ -143,7 +143,7 @@ function Navbar() {
               </span>
               <Link to="/user-settings" onClick={toggleMobileMenu}>
                 <img
-                  src="/public/avatar/avatar.png"
+                  src="/avatar/avatar.png"
                   alt="إعدادات يوزر عادي"
                   className="avatar-img"
                   style={{
