@@ -9,7 +9,7 @@ import Register from "./pages/Register";
 import StudentDashboard from "./pages/StudentDashboard";
 import SubServicesPage from "./pages/SubServicesPage";
 import Servicespage from "./pages/Services";
-import { servicesData, subServicesData } from "./data/servicesData";
+import Providerstudents from "./pages/Providerstudnts"; // التأكد من تضمين الصفحة
 
 function App() {
   return (
@@ -24,14 +24,16 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/student-dashboard" element={<StudentDashboard />} />
-            <Route
-              path="/servicespage"
-              element={<Servicespage services={servicesData.slice(0, 6)} />}
-            />
+            <Route path="/servicespage" element={<Servicespage />} />
             <Route
               path="/services/:serviceName"
-              element={<SubServicesPage subServices={subServicesData} />}
+              element={<SubServicesPage />}
             />
+            <Route
+              path="/providerstudents/:subServiceId"
+              element={<Providerstudents />}
+            />{" "}
+            {/* إضافة المسار الصحيح */}
           </Routes>
         </main>
         <Footer />

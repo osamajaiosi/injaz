@@ -1,23 +1,35 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './Login.css';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../Contexts/AuthContext";
+import "./Login.css";
 
 function Login() {
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
+
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: Implement login logic
+
+    // مؤقتًا: تحديد نوع المستخدم بناءً على الإيميل
+    const isStudent = formData.email.includes("student");
+
+    const userType = isStudent ? "student" : "user";
+    login(userType); // سجل نوع المستخدم
+
+    // ✅ توجيه المستخدم إلى الصفحة الرئيسية بعد تسجيل الدخول
+    navigate("/");
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -48,7 +60,9 @@ function Login() {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary">تسجيل الدخول</button>
+          <button type="submit" className="btn btn-primary">
+            تسجيل الدخول
+          </button>
         </form>
         <p className="register-link">
           ليس لديك حساب؟ <Link to="/register">إنشاء حساب جديد</Link>

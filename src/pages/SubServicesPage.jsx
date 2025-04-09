@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import axios from "axios";
-import * as Lucide from "lucide-react"; // للتأكد من جلب الأيقونات بشكل صحيح
+import * as Lucide from "lucide-react";
 import "./SubServicesPage.css";
 
 // خريطة تطابق الخدمات الرئيسية مع الأيقونات الخاصة بهم
@@ -32,7 +31,7 @@ const SubServicesPage = () => {
       try {
         setLoading(true);
 
-        // قم بربط اسم الخدمة مع الـ ID الخاص بها (حسب الـ Swagger)
+        // مابنج اسم الخدمة مع ID الخاص فيها
         const serviceMapping = {
           تعليمة: 1,
           ابداعية: 2,
@@ -48,17 +47,15 @@ const SubServicesPage = () => {
           مهنية: 12,
         };
 
-        // الحصول على الـ ID الخاص بالخدمة بناءً على اسم الخدمة
         const serviceId = serviceMapping[serviceName];
 
         if (serviceId) {
-          // استخدام الرابط الصحيح كما في الـ Swagger
           const response = await axios.get(
             `http://eallaenjazapi.runasp.net/api/Branch_Serves/GET_ALL_BRANCH_SERVES_USING_ID_BRANCH_SERVES${serviceId}`,
             { headers: { accept: "text/plain" } }
           );
 
-          setSubServices(response.data); // تخزين البيانات المسترجعة
+          setSubServices(response.data);
         } else {
           console.error("Invalid service name!");
         }
@@ -70,10 +67,10 @@ const SubServicesPage = () => {
     };
 
     fetchSubServices();
-  }, [serviceName]); // إعادة جلب البيانات عندما يتغير اسم الخدمة
+  }, [serviceName]);
 
   if (loading) {
-    return <p>جاري تحميل البيانات...</p>; // حالة تحميل البيانات
+    return <p>جاري تحميل البيانات...</p>;
   }
 
   return (
@@ -87,7 +84,6 @@ const SubServicesPage = () => {
         <div className="subservices-grid">
           {subServices.length > 0 ? (
             subServices.map((sub, index) => {
-              // التأكد من أن id_name_serves ليس فارغًا وتعيين الأيقونة بناءً عليه
               const IconComponent = iconMap[sub.id_name_serves] || ChevronLeft;
 
               return (
@@ -97,7 +93,10 @@ const SubServicesPage = () => {
                   </div>
                   <h3>{sub.name}</h3>
                   <p>{sub.description}</p>
-                  <Link to={sub.path} className="subservice-link">
+                  <Link
+                    to={`/providerstudents/${sub.id}`} // ✅ هنا التعديل المهم
+                    className="subservice-link"
+                  >
                     اظهار موزدين الخدمة <ChevronLeft size={16} />
                   </Link>
                 </div>
