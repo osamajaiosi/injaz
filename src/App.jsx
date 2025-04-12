@@ -9,7 +9,8 @@ import Register from "./pages/Register";
 import StudentDashboard from "./pages/StudentDashboard";
 import SubServicesPage from "./pages/SubServicesPage";
 import Servicespage from "./pages/Services";
-import Providerstudents from "./pages/Providerstudnts"; // التأكد من تضمين الصفحة
+import Providerstudents from "./pages/Providerstudnts";
+import StudentProfile from "./pages/StudentProfile";
 
 function App() {
   return (
@@ -33,7 +34,7 @@ function App() {
               path="/providerstudents/:subServiceId"
               element={<Providerstudents />}
             />{" "}
-            {/* إضافة المسار الصحيح */}
+          <Route path="/profile" element={<StudentProfile />} />
           </Routes>
         </main>
         <Footer />
