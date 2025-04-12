@@ -44,7 +44,6 @@ function StudentProfile() {
   return (
     <div className="profile-container">
       <h2 className="profile-title">الملف الشخصي</h2>
-      <a href="/test">test</a>
       <div className="profile-content">
         <div className="profile-sidebar">
           <div className="profile-avatar-section">

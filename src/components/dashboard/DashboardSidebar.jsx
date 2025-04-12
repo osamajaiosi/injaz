@@ -1,61 +1,121 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import "./DashboardSidebar.css";
+import SidebarProfile from "./SidebarProfile";
+import NavMenuItem from "./NavMenuItem";
 
-const DashboardSidebar = ({ activeTab, setActiveTab, userData }) => {
+const DashboardSidebar = ({
+  activeTab,
+  setActiveTab,
+  openDropdown,
+  toggleDropdown,
+}) => {
+  const isTabActive = (tabPrefix) => {
+    return typeof tabPrefix === "string"
+      ? activeTab.startsWith(tabPrefix)
+      : activeTab === tabPrefix;
+  };
+
+  const selectFirstDropdownItem = (itemId) => {
+    const menuItem = menuItems.find((item) => item.id === itemId);
+    if (menuItem && menuItem.subItems && menuItem.subItems.length > 0) {
+      setActiveTab(menuItem.subItems[0].id);
+      toggleDropdown(itemId);
+    }
+  };
+
+  // Menu item definitions
+  const menuItems = [
+    {
+      id: "services",
+      label: "خدماتي",
+      icon: "fa-book",
+      isDropdown: true,
+      subItems: [
+        { id: "services-add", label: "إضافة خدمة" },
+        { id: "services-edit", label: "تعديل خدمة" },
+        { id: "services-delete", label: "حذف خدمة" },
+        { id: "services-view", label: "عرض خدمة" },
+      ],
+    },
+    {
+      id: "request",
+      label: "طلباتي",
+      icon: "fa-tasks",
+      isDropdown: true,
+      subItems: [
+        { id: "underworking", label: "جاري العمل عليها" },
+        { id: "completed", label: "مكتمل" },
+        { id: "cancelled", label: "ملغية" },
+      ],
+    },
+    {
+      id: "cards",
+      label: "بطاقاتي",
+      icon: "fa-id-card",
+      isDropdown: false,
+    },
+    {
+      id: "sales",
+      label: "مبيعاتي",
+      icon: "fa-chart-line",
+      isDropdown: true,
+      subItems: [
+        { id: "sales-diagnostics", label: "تشخيصات و مراجعات" },
+        { id: "sales-stats", label: "إحصائيات" },
+      ],
+    },
+  ];
+
   return (
     <div className="dashboard-sidebar">
-      <div className="sidebar-header">
-        <div className="user-avatar">
-          <img src={userData?.avatar || "/avatar/avatar.png"} alt="صورة المستخدم" />
-        </div>
-        <h3>مرحبا، {userData?.name?.split(" ")[0] || "أحمد"}</h3>
-        <span className="user-role">طالب</span>
-      </div>
-      
+      <SidebarProfile />
+
       <nav className="sidebar-nav">
         <ul>
-          <li className={activeTab === "dashboard" ? "active" : ""}>
-            <button onClick={() => setActiveTab("dashboard")}>
-              <i className="fas fa-home"></i>
-              <span>لوحة التحكم</span>
-            </button>
-          </li>
-          <li className={activeTab === "services" ? "active" : ""}>
-            <button onClick={() => setActiveTab("services")}>
-              <i className="fas fa-book"></i>
-              <span>خدماتي</span>
-            </button>
-          </li>
-          <li className={activeTab === "requests" ? "active" : ""}>
-            <button onClick={() => setActiveTab("requests")}>
-              <i className="fas fa-tasks"></i>
-              <span>الطلبات</span>
-            </button>
-          </li>
-          <li className={activeTab === "messages" ? "active" : ""}>
-            <button onClick={() => setActiveTab("messages")}>
-              <i className="fas fa-envelope"></i>
-              <span>الرسائل</span>
-            </button>
-          </li>
-          <li>
-            <Link to="/student-profile" className="sidebar-profile-link">
-              <i className="fas fa-user"></i>
-              <span>الملف الشخصي</span>
-            </Link>
-          </li>
+          {menuItems.map((item) => (
+            <NavMenuItem
+              key={item.id}
+              icon={item.icon}
+              label={item.label}
+              isDropdown={item.isDropdown}
+              isActive={isTabActive(item.id)}
+              isOpen={openDropdown === item.id}
+              onClick={
+                item.isDropdown
+                  ? () => toggleDropdown(item.id)
+                  : () => setActiveTab(item.id)
+              }
+              onFirstItemSelect={selectFirstDropdownItem}
+              firstItemId={item.id}
+              activeTab={activeTab}
+            >
+              {item.isDropdown && (
+                <ul>
+                  {item.subItems.map((subItem) => (
+                    <li
+                      key={subItem.id}
+                      onClick={() => setActiveTab(subItem.id)}
+                      className={
+                       "subitem" + activeTab === subItem.id ? "active-subitem" : ""
+                      }
+                    >
+                      {subItem.label}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </NavMenuItem>
+          ))}
         </ul>
       </nav>
     </div>
   );
 };
-
 DashboardSidebar.propTypes = {
   activeTab: PropTypes.string.isRequired,
   setActiveTab: PropTypes.func.isRequired,
-  userData: PropTypes.object
+  openDropdown: PropTypes.string,
+  toggleDropdown: PropTypes.func.isRequired,
 };
 
 export default DashboardSidebar;

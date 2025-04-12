@@ -276,10 +276,36 @@
   .profile-content {
     flex-direction: column;
   }
-  
+
   .profile-sidebar {
     width: 100%;
     border-left: none;
     border-bottom: 1px solid #eaeaea;
+  }
+}
+
+.dropdown-button {
+  position: relative;
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 10px;
+  }
+  
+.dropdown-button:hover {
+  .dropdown-menu {
+    display: block;
   }
 }
