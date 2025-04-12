@@ -110,8 +110,8 @@ function Navbar() {
                   alt="الملف الشخصي"
                   className="avatar-img"
                   style={{
-                    width: "65px",
-                    height: "65px",
+                    width: "50px",
+                    height: "50px",
                     borderRadius: "50%",
                     cursor: "pointer",
                     marginRight: "10px",
