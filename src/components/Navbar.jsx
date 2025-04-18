@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../Contexts/AuthContext";
 import "./Navbar.css";
+import UserDropdown from "../pages/UserDropdown";
 
 function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -75,21 +76,21 @@ function Navbar() {
           {userType === "student" && (
             <>
               <Link
-                to="/Dashboard"
+                to="/student-dashboard"
                 className="nav-link"
                 onClick={toggleMobileMenu}
               >
                 لوحة التحكم{" "}
               </Link>
               <Link
-                to="/Dashboard"
+                to="/student-announcements"
                 className="nav-link"
                 onClick={toggleMobileMenu}
               >
                 اعلاناتي
               </Link>
               <Link
-                to="/student-dashboard"
+                to="/student-requests"
                 className="nav-link"
                 onClick={toggleMobileMenu}
               >
@@ -104,21 +105,7 @@ function Navbar() {
               >
                 تسجيل الخروج
               </span>
-              <Link to="/student-settings" onClick={toggleMobileMenu}>
-                <img
-                  src="/public/avatar/avatar.png"
-                  alt="إعدادات الطالب"
-                  className="avatar-img"
-                  style={{
-                    width: "65px",
-                    height: "65px",
-                    borderRadius: "50%",
-                    cursor: "pointer",
-                    marginRight: "10px",
-                    marginTop: "10px",
-                  }}
-                />
-              </Link>
+              <UserDropdown profilePath="/user-profile" />
             </>
           )}
 
@@ -126,7 +113,7 @@ function Navbar() {
           {userType === "user" && (
             <>
               <Link
-                to="/Dashboard"
+                to="/user-dashboard"
                 className="nav-link"
                 onClick={toggleMobileMenu}
               >
@@ -141,10 +128,10 @@ function Navbar() {
               >
                 تسجيل الخروج
               </span>
-              <Link to="/user-settings" onClick={toggleMobileMenu}>
+              <Link to="/user-profile" onClick={toggleMobileMenu}>
                 <img
                   src="/avatar/avatar.png"
-                  alt="إعدادات يوزر عادي"
+                  alt="الملف الشخصي"
                   className="avatar-img"
                   style={{
                     width: "65px",

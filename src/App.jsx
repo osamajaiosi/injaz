@@ -10,6 +10,10 @@ import StudentDashboard from "./pages/StudentDashboard";
 import SubServicesPage from "./pages/SubServicesPage";
 import Servicespage from "./pages/Services";
 import Providerstudents from "./pages/Providerstudnts";
+import StudentProfile from "./pages/StudentProfile";
+import ChangePassword from "./pages/ChangePassword";
+import CardInfo from "./pages/CardInfo";
+
 import AddService from "./pages/AddService";
 import UpdateService from "./pages/UpdateService"; // ✅ استيراد صفحة التعديل
 
@@ -35,6 +39,9 @@ function App() {
               path="/providerstudents/:subServiceId"
               element={<Providerstudents />}
             />
+            <Route path="/profile" element={<StudentProfile />} />
+            <Route path="/change-password" element={<ChangePassword />} />
+            <Route path="/card-info" element={<CardInfo />} />
             <Route path="/AddService" element={<AddService />} />
             <Route
               path="/update-service/:serviceId"

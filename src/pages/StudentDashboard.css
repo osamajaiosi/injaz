@@ -36,3 +36,505 @@
 .dashboard-card button {
   margin-top: 1rem;
 }
+
+/* Main layout */
+.student-dashboard {
+  display: flex;
+  min-height: calc(100vh - 60px); /* Adjust based on your navbar height */
+  direction: rtl;
+}
+
+/* Sidebar styles */
+.dashboard-sidebar {
+  width: 260px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem 0;
+  flex-shrink: 0;
+  direction: rtl;
+}
+
+/* Sidebar Header */
+.sidebar-header {
+  padding: 0 1.5rem 1.5rem;
+  text-align: center;
+  border-bottom: 1px solid #eaeaea;
+  margin-bottom: 1.5rem;
+}
+
+.user-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 1rem;
+  border: 3px solid var(--primary-color);
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sidebar-header h3 {
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.user-role {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 0.8rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+}
+
+/* Nav */
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-nav li {
+  position: relative;
+}
+
+/* Sidebar buttons and links */
+.sidebar-nav button,
+.sidebar-profile-link {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background: none;
+  border: none;
+  text-align: right;
+  font-size: 1rem;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.sidebar-nav button:hover,
+.sidebar-profile-link:hover {
+  background-color: #f5f5f5;
+  color: var(--primary-color);
+}
+
+/* Active tab */
+.sidebar-nav li.active button {
+  background-color: rgba(0, 123, 255, 0.1);
+  color: var(--primary-color);
+  border-right: 3px solid var(--primary-color);
+  font-weight: bold;
+}
+
+/* Icon styles */
+.sidebar-nav i {
+  margin-left: 0.75rem;
+  width: 20px;
+  text-align: center;
+}
+
+/* Dropdown menu styles */
+.dropdown-menu {
+  display: none;
+  background-color: #fafafa;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  position: relative;
+  padding: 20px;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.dropdown-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+.dropdown-menu li:hover {
+  background-color: #e9f2ff;
+  color: var(--primary-color);
+}
+
+/* Smooth animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dashboard content styles */
+.dashboard-content {
+  flex-grow: 1;
+  padding: 1.5rem 2rem;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+}
+
+.dashboard-content h2 {
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+  font-size: 1.75rem;
+}
+
+/* Dashboard cards */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.dashboard-card {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 123, 255, 0.1);
+  color: var(--primary-color);
+  border-radius: 10px;
+  margin-left: 1rem;
+  font-size: 1.5rem;
+}
+
+.card-content {
+  flex-grow: 1;
+}
+
+.card-content h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  color: #555;
+}
+
+.card-number {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+/* Unauthorized message */
+.unauthorized-message {
+  text-align: center;
+  padding: 3rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.unauthorized-message h2 {
+  color: #dc3545;
+  margin-bottom: 1rem;
+}
+
+/* Upcoming activities */
+.upcoming-activities {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.upcoming-activities h3 {
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+
+.activities-list {
+  list-style: none;
+  padding: 0;
+}
+
+.activities-list li {
+  display: flex;
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.activities-list li:last-child {
+  border-bottom: none;
+}
+
+.activity-date {
+  padding-left: 1rem;
+  margin-left: 1rem;
+  border-left: 2px solid #ddd;
+  font-weight: bold;
+  color: #888;
+  min-width: 80px;
+}
+
+.activity-content h4 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+}
+
+.activity-content p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Services section */
+.services-section {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.services-section p {
+  margin-bottom: 1rem;
+}
+
+.services-table {
+  margin-top: 1.5rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: bold;
+  padding: 0.75rem 1rem;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #eee;
+  align-items: center;
+}
+
+/* Requests section */
+.requests-section {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 0;
+  color: #888;
+}
+
+.empty-state i {
+  margin-bottom: 1rem;
+  color: #ccc;
+}
+
+/* Messages section */
+.messages-section {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.messages-container {
+  margin-top: 1rem;
+}
+
+.message-item {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.message-item:hover {
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+.message-item.unread {
+  background-color: rgba(0, 123, 255, 0.05);
+  border-right: 3px solid var(--primary-color);
+}
+
+.message-sender {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.message-preview {
+  color: #666;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.message-time {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 0.25rem;
+}
+
+/* Profile section */
+.profile-section {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.profile-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.profile-avatar {
+  text-align: center;
+}
+
+.profile-avatar img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--primary-color);
+}
+
+.profile-avatar button {
+  margin-top: 1rem;
+}
+
+.profile-details {
+  flex: 1;
+  min-width: 300px;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+}
+
+.btn-small {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .student-dashboard {
+    flex-direction: column;
+  }
+  
+  .dashboard-sidebar {
+    width: 100%;
+  }
+}
+
+.cards-section {
+  padding: 20px;
+}
+
+.student-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  max-width: 500px;
+  margin-top: 20px;
+  direction: rtl;
+  text-align: right;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  color: #444;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.card-details p {
+  margin: 8px 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.card-details strong {
+  color: #000;
+}
+
+
+

@@ -35,7 +35,7 @@ const iconMap = {
 
 const ServicesPage = () => {
   const [services, setServices] = useState([]);
-
+  
   useEffect(() => {
     axios
       .get(

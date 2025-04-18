@@ -1,27 +1,37 @@
+import { useState } from "react";
+import { useAuth } from "../Contexts/AuthContext";
+import DashboardSidebar from "../components/dashboard/DashboardSidebar";
+import DashboardContent from "../components/dashboard/DashboardContent";
 import "./StudentDashboard.css";
 
 function StudentDashboard() {
-  return (
-    <div className="dashboard-container">
-      <h2>لوحة التحكم</h2>
-      <div className="dashboard-grid">
-        <div className="dashboard-card">
-          <h3>خدماتي</h3>
-          <p>اضف الخدمة الخاصة بك</p>
-          <button className="btn btn-primary">إضافة خدمة </button>
-        </div>
-        <div className="dashboard-card">
-          <h3>الطلبات</h3>
-          <p>لا توجد طلبات حالية</p>
-        </div>
-        <div className="dashboard-card">
-          <h3>الإحصائيات</h3>
-          <ul>
-            <li>عدد الخدمات المنجزة: 0</li>
-            <li>عدد الطلبات : 0</li>
-          </ul>
-        </div>
+  const { userType } = useAuth();
+  const [activeTab, setActiveTab] = useState("services");
+  const [openDropdown, setOpenDropdown] = useState(null);
+
+  // Redirect if not a student
+  if (userType !== "student") {
+    return (
+      <div className="unauthorized-message">
+        <h2>غير مصرح بالوصول</h2>
+        <p>هذه الصفحة متاحة فقط للطلاب</p>
       </div>
+    );
+  }
+
+  const toggleDropdown = (name) => {
+    setOpenDropdown(openDropdown === name ? null : name);
+  };
+
+  return (
+    <div className="student-dashboard">
+      <DashboardSidebar 
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        openDropdown={openDropdown}
+        toggleDropdown={toggleDropdown}
+      />
+      <DashboardContent activeTab={activeTab} />
     </div>
   );
 }

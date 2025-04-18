@@ -1,0 +1,335 @@
+/* ملف CSS محدث بشكل احترافي لـ StudentProfile */
+
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --bg-light: #f8f9fa;
+  --text-dark: #333;
+  --text-muted: #666;
+  --border-color: #ddd;
+  --radius: 6px;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f1f3f5;
+  margin: 0;
+}
+
+.profile-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem 1.5rem;
+  direction: rtl;
+}
+
+.profile-title {
+  color: var(--primary-color);
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: right;
+}
+
+.profile-content {
+  display: flex;
+  gap: 2rem;
+  background-color: white;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+/* Sidebar */
+.profile-sidebar {
+  width: 280px;
+  background-color: var(--bg-light);
+  padding: 2rem;
+  border-left: 1px solid var(--border-color);
+}
+
+.profile-avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.profile-avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.btn-change-avatar {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.profile-stats {
+  background: white;
+  padding: 1.2rem;
+  border-radius: var(--radius);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.stat-item:last-child {
+  margin-bottom: 0;
+}
+
+.stat-label {
+  color: var(--text-muted);
+}
+
+.stat-value {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+/* Main section */
+.profile-main {
+  flex: 1;
+  padding: 2rem;
+}
+
+.profile-header {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.profile-header h3 {
+  margin: 0 0 0.5rem;
+  color: var(--text-dark);
+  font-size: 1.5rem;
+}
+
+.profile-tagline {
+  color: var(--text-muted);
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.5rem;
+}
+
+/* Form styles */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: var(--text-dark);
+}
+
+.form-group input,
+.form-group textarea,
+.profile-form select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  color: var(--text-dark);
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.profile-form select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23666' d='M70 90L30 50h80z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 1rem center;
+  background-size: 12px;
+  padding-left: 2.5rem;
+  cursor: pointer;
+}
+
+.profile-form select:focus,
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--primary-color);
+  background-color: white;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.2);
+  outline: none;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+/* Details section */
+.profile-details-view {
+  margin-top: 1rem;
+}
+
+.details-section {
+  margin-bottom: 2rem;
+}
+
+.details-section h4 {
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px dashed #eee;
+  padding-bottom: 0.5rem;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95rem;
+}
+
+.detail-label {
+  font-weight: bold;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.detail-value {
+  color: var(--text-dark);
+}
+
+.bio-text {
+  line-height: 1.6;
+  color: #444;
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.skill-tag {
+  background-color: rgba(0, 123, 255, 0.1);
+  color: var(--primary-color);
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+.btn-success {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+.btn-danger {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+/* Unauthorized */
+.unauthorized-message {
+  text-align: center;
+  padding: 3rem;
+  max-width: 500px;
+  margin: auto;
+}
+
+.unauthorized-message h2 {
+  color: var(--danger-color);
+  margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .profile-content {
+    flex-direction: column;
+  }
+  .profile-sidebar {
+    width: 100%;
+    border-left: none;
+    border-bottom: 1px solid #eaeaea;
+  }
+}
+
+/* رسالة الخطأ */
+.error-msg {
+  color: #d93025; /* لون أحمر واضح */
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: block;
+  direction: rtl;
+  font-weight: 500;
+}
