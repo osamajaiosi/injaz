@@ -14,6 +14,9 @@ import StudentProfile from "./pages/StudentProfile";
 import ChangePassword from "./pages/ChangePassword";
 import CardInfo from "./pages/CardInfo";
 
+import AddService from "./pages/AddService";
+import UpdateService from "./pages/UpdateService"; // ✅ استيراد صفحة التعديل
+
 function App() {
   return (
     <Router>
@@ -39,6 +42,11 @@ function App() {
             <Route path="/profile" element={<StudentProfile />} />
             <Route path="/change-password" element={<ChangePassword />} />
             <Route path="/card-info" element={<CardInfo />} />
+            <Route path="/AddService" element={<AddService />} />
+            <Route
+              path="/update-service/:serviceId"
+              element={<UpdateService />}
+            />
           </Routes>
         </main>
         <Footer />

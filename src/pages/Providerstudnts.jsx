@@ -43,8 +43,10 @@ const Providerstudents = () => {
                 <div className="provider-image">
                   <img
                     src={
-                      provider.image ||
-                      "/public/for-test-provider/software-developer-6521720-scaled.webp"
+                      provider.imege_url &&
+                      provider.imege_url.startsWith("http")
+                        ? provider.imege_url
+                        : "/for-test-provider/software-developer-6521720-scaled.webp"
                     }
                     alt={provider.service_Address}
                   />
