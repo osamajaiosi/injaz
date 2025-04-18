@@ -1,4 +1,4 @@
-import React from "react";
+//import React from "react";
 
 const DashboardContent = ({ activeTab }) => {
   // Content sections based on activeTab
@@ -63,12 +63,24 @@ const DashboardContent = ({ activeTab }) => {
                 <h3>بطاقة الطالب</h3>
               </div>
               <div className="card-details">
-                <p><strong>الاسم:</strong> أحمد محمد</p>
-                <p><strong>رقم البطاقة:</strong> 123234345</p>
-                <p><strong>الكلية:</strong> كلية الهندسة</p>
-                <p><strong>القسم:</strong> قسم الكهرباء</p>
-                <p><strong>المرحلة:</strong> الثالثة</p>
-                <p><strong>الحالة:</strong> فعالة</p>
+                <p>
+                  <strong>الاسم:</strong> أحمد محمد
+                </p>
+                <p>
+                  <strong>رقم البطاقة:</strong> 123234345
+                </p>
+                <p>
+                  <strong>الكلية:</strong> كلية الهندسة
+                </p>
+                <p>
+                  <strong>القسم:</strong> قسم الكهرباء
+                </p>
+                <p>
+                  <strong>المرحلة:</strong> الثالثة
+                </p>
+                <p>
+                  <strong>الحالة:</strong> فعالة
+                </p>
               </div>
             </div>
           </div>
@@ -76,7 +88,7 @@ const DashboardContent = ({ activeTab }) => {
       case "sales-diagnostics":
         return (
           <div className="content-section">
-            <h2>تشخيصات ومراجعات</h2>
+            <h2>التقييم والمراجعات</h2>
             <p>قائمة بالمراجعات الأخيرة التي قمت بها.</p>
           </div>
         );

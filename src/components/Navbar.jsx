@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../Contexts/AuthContext";
 import "./Navbar.css";
+import UserDropdown from "../pages/UserDropdown";
 
 function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -104,21 +105,7 @@ function Navbar() {
               >
                 تسجيل الخروج
               </span>
-              <Link to="/profile" onClick={toggleMobileMenu}>
-                <img
-                  src="/avatar/avatar.png"
-                  alt="الملف الشخصي"
-                  className="avatar-img"
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    borderRadius: "50%",
-                    cursor: "pointer",
-                    marginRight: "10px",
-                    marginTop: "10px",
-                  }}
-                />
-              </Link>
+              <UserDropdown profilePath="/user-profile" />
             </>
           )}
 

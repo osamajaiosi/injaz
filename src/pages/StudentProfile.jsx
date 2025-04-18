@@ -4,19 +4,25 @@ import "./StudentProfile.css";
 
 function StudentProfile() {
   const { userType } = useAuth();
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "أحمد محمد",
+  const initialForm = {
+    firstName: "مجد",
+    lastName: "ابو قبع",
+    gender: "ذكر",
     email: "ahmed@example.com",
-    phone: "+966 50 123 4567",
+    phone: "962501234567",
     specialty: "هندسة برمجيات",
+    university: "جامعة الحسين بن طلال",
+    mainService: "تطوير واجهات المستخدم",
+    subService: "تصميم مكونات React",
+    servicePrice: "1500",
     bio: "طالب هندسة برمجيات في السنة الثالثة، مهتم بتطوير الويب وتطبيقات الموبايل.",
-    address: "الرياض، المملكة العربية السعودية",
-    university: "جامعة الملك سعود",
-    graduationYear: "2026"
-  });
+  };
 
-  // Redirect if not a student
+  const [formData, setFormData] = useState(initialForm);
+  const [originalData, setOriginalData] = useState(initialForm);
+  const [isEditing, setIsEditing] = useState(false);
+  const [errors, setErrors] = useState({});
+
   if (userType !== "student") {
     return (
       <div className="unauthorized-message">
@@ -28,16 +34,64 @@ function StudentProfile() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prevErrors) => {
+      const updatedErrors = { ...prevErrors };
+      delete updatedErrors[name];
+      return updatedErrors;
     });
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (
+      !formData.firstName.trim() ||
+      formData.firstName.length < 2 ||
+      formData.firstName.length > 30 ||
+      /[^\u0621-\u064Aa-zA-Z\s]/.test(formData.firstName)
+    ) {
+      newErrors.firstName =
+        "الاسم الأول يجب أن يحتوي على 2-30 حرفًا ولا يحتوي على رموز أو أرقام.";
+    }
+    if (
+      !formData.lastName.trim() ||
+      formData.lastName.length < 2 ||
+      formData.lastName.length > 30 ||
+      /[^\u0621-\u064Aa-zA-Z\s]/.test(formData.lastName)
+    ) {
+      newErrors.lastName =
+        "الاسم الأخير يجب أن يحتوي على 2-30 حرفًا ولا يحتوي على رموز أو أرقام.";
+    }
+    if (!["ذكر", "أنثى"].includes(formData.gender)) {
+      newErrors.gender = "يرجى اختيار الجنس الصحيح.";
+    }
+    if (!/^962[0-9]{8,9}$/.test(formData.phone)) {
+      newErrors.phone =
+        "رقم الهاتف يجب أن يبدأ بـ 962 ويحتوي على 11 إلى 12 رقمًا كحد أقصى.";
+    }
+    if (
+      !formData.bio ||
+      formData.bio.length < 20 ||
+      formData.bio.length > 500
+    ) {
+      newErrors.bio = "النبذة الشخصية يجب أن تكون بين 20 و500 حرف.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would send the updated profile data to your API
-    console.log('Profile data updated:', formData);
+    if (!validateForm()) return;
+    setOriginalData(formData);
+    setIsEditing(false);
+    console.log("Profile data updated:", formData);
+  };
+
+  const handleCancel = () => {
+    setFormData(originalData);
+    setErrors({});
     setIsEditing(false);
   };
 
@@ -54,7 +108,7 @@ function StudentProfile() {
               <i className="fas fa-camera"></i> تغيير الصورة
             </button>
           </div>
-          
+
           <div className="profile-stats">
             <div className="stat-item">
               <span className="stat-label">المشاريع المنجزة</span>
@@ -70,105 +124,83 @@ function StudentProfile() {
             </div>
           </div>
         </div>
-        
         <div className="profile-main">
           <div className="profile-header">
-            <h3>{formData.name}</h3>
-            <p className="profile-tagline">{formData.specialty} | {formData.university}</p>
+            <h3>
+              {formData.firstName} {formData.lastName}
+            </h3>
+            <p className="profile-tagline">
+              {formData.specialty} | {formData.university}
+            </p>
           </div>
-          
           <div className="profile-actions">
-            <button 
-              className="btn btn-primary" 
-              onClick={() => setIsEditing(!isEditing)}
+            <button
+              className="btn btn-primary"
+              onClick={() => setIsEditing(true)}
             >
-              {isEditing ? "إلغاء التعديل" : "تعديل البيانات"}
+              تعديل البيانات
             </button>
           </div>
-          
-          <form className="profile-form" onSubmit={handleSubmit}>
+          <form className="profile-form" onSubmit={handleSubmit} noValidate>
             {isEditing ? (
               <>
                 <div className="form-grid">
-                  <div className="form-group">
-                    <label>الاسم</label>
-                    <input 
-                      type="text" 
-                      name="name" 
-                      value={formData.name} 
-                      onChange={handleChange} 
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>البريد الإلكتروني</label>
-                    <input 
-                      type="email" 
-                      name="email" 
-                      value={formData.email} 
-                      onChange={handleChange} 
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>رقم الهاتف</label>
-                    <input 
-                      type="tel" 
-                      name="phone" 
-                      value={formData.phone} 
-                      onChange={handleChange} 
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>التخصص</label>
-                    <input 
-                      type="text" 
-                      name="specialty" 
-                      value={formData.specialty} 
-                      onChange={handleChange} 
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>الجامعة</label>
-                    <input 
-                      type="text" 
-                      name="university" 
-                      value={formData.university} 
-                      onChange={handleChange} 
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>سنة التخرج</label>
-                    <input 
-                      type="text" 
-                      name="graduationYear" 
-                      value={formData.graduationYear} 
-                      onChange={handleChange} 
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>العنوان</label>
-                    <input 
-                      type="text" 
-                      name="address" 
-                      value={formData.address} 
-                      onChange={handleChange} 
-                    />
-                  </div>
+                  {["firstName", "lastName", "gender", "phone"].map((field) => (
+                    <div className="form-group" key={field}>
+                      <label>
+                        {field === "firstName"
+                          ? "الاسم الأول"
+                          : field === "lastName"
+                          ? "الاسم الأخير"
+                          : field === "gender"
+                          ? "الجنس"
+                          : "رقم الهاتف"}
+                      </label>
+                      {field === "gender" ? (
+                        <select
+                          name={field}
+                          value={formData[field]}
+                          onChange={handleChange}
+                        >
+                          <option value="ذكر">ذكر</option>
+                          <option value="أنثى">أنثى</option>
+                        </select>
+                      ) : (
+                        <input
+                          type="text"
+                          name={field}
+                          value={formData[field]}
+                          onChange={handleChange}
+                        />
+                      )}
+                      {errors[field] && (
+                        <span className="error-msg">{errors[field]}</span>
+                      )}
+                    </div>
+                  ))}
                 </div>
+
                 <div className="form-group full-width">
                   <label>نبذة شخصية</label>
-                  <textarea 
-                    name="bio" 
-                    value={formData.bio} 
+                  <textarea
+                    name="bio"
+                    rows={4}
+                    value={formData.bio}
                     onChange={handleChange}
-                    rows="4"
-                  ></textarea>
+                  />
+                  {errors.bio && (
+                    <span className="error-msg">{errors.bio}</span>
+                  )}
                 </div>
+
                 <div className="form-buttons">
-                  <button type="submit" className="btn btn-success">حفظ التغييرات</button>
-                  <button 
-                    type="button" 
-                    className="btn btn-danger" 
-                    onClick={() => setIsEditing(false)}
+                  <button type="submit" className="btn btn-success">
+                    حفظ التغييرات
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={handleCancel}
                   >
                     إلغاء
                   </button>
@@ -180,8 +212,16 @@ function StudentProfile() {
                   <h4>معلومات شخصية</h4>
                   <div className="details-grid">
                     <div className="detail-item">
-                      <span className="detail-label">الاسم:</span>
-                      <span className="detail-value">{formData.name}</span>
+                      <span className="detail-label">الاسم الأول:</span>
+                      <span className="detail-value">{formData.firstName}</span>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-label">الاسم الأخير:</span>
+                      <span className="detail-value">{formData.lastName}</span>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-label">الجنس:</span>
+                      <span className="detail-value">{formData.gender}</span>
                     </div>
                     <div className="detail-item">
                       <span className="detail-label">البريد الإلكتروني:</span>
@@ -191,13 +231,9 @@ function StudentProfile() {
                       <span className="detail-label">رقم الهاتف:</span>
                       <span className="detail-value">{formData.phone}</span>
                     </div>
-                    <div className="detail-item">
-                      <span className="detail-label">العنوان:</span>
-                      <span className="detail-value">{formData.address}</span>
-                    </div>
                   </div>
                 </div>
-                
+
                 <div className="details-section">
                   <h4>المعلومات الأكاديمية</h4>
                   <div className="details-grid">
@@ -207,30 +243,43 @@ function StudentProfile() {
                     </div>
                     <div className="detail-item">
                       <span className="detail-label">الجامعة:</span>
-                      <span className="detail-value">{formData.university}</span>
-                    </div>
-                    <div className="detail-item">
-                      <span className="detail-label">سنة التخرج:</span>
-                      <span className="detail-value">{formData.graduationYear}</span>
+                      <span className="detail-value">
+                        {formData.university}
+                      </span>
                     </div>
                   </div>
                 </div>
-                
+
+                <div className="details-section">
+                  <h4>نبذة عن خدمتي</h4>
+                  <div className="details-grid">
+                    <div className="detail-item">
+                      <span className="detail-label">الخدمة الرئيسية:</span>
+                      <span className="detail-value">
+                        {formData.mainService}
+                      </span>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-label">الخدمة الفرعية:</span>
+                      <span className="detail-value">
+                        {formData.subService}
+                      </span>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-label">سعر الخدمة:</span>
+                      <span className="detail-value">
+                        {formData.servicePrice}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="details-section">
                   <h4>نبذة شخصية</h4>
                   <p className="bio-text">{formData.bio}</p>
                 </div>
-                
-                <div className="details-section">
-                  <h4>المهارات</h4>
-                  <div className="skills-list">
-                    <span className="skill-tag">JavaScript</span>
-                    <span className="skill-tag">React</span>
-                    <span className="skill-tag">Node.js</span>
-                    <span className="skill-tag">HTML/CSS</span>
-                    <span className="skill-tag">تصميم واجهات المستخدم</span>
-                  </div>
-                </div>
+
+                <div className="details-section"></div>
               </div>
             )}
           </form>

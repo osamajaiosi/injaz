@@ -1,4 +1,4 @@
-import React from "react";
+//import React from "react";
 import PropTypes from "prop-types";
 import SidebarProfile from "./SidebarProfile";
 import NavMenuItem from "./NavMenuItem";
@@ -23,7 +23,6 @@ const DashboardSidebar = ({
     }
   };
 
-  // Menu item definitions
   const menuItems = [
     {
       id: "services",
@@ -60,7 +59,7 @@ const DashboardSidebar = ({
       icon: "fa-chart-line",
       isDropdown: true,
       subItems: [
-        { id: "sales-diagnostics", label: "تشخيصات و مراجعات" },
+        { id: "sales-diagnostics", label: "التقييم والمراجعات" },
         { id: "sales-stats", label: "إحصائيات" },
       ],
     },
@@ -82,7 +81,7 @@ const DashboardSidebar = ({
               isOpen={openDropdown === item.id}
               onClick={
                 item.isDropdown
-                  ? () => toggleDropdown(item.id)
+                  ? () => selectFirstDropdownItem(item.id) // ✅ Fixed
                   : () => setActiveTab(item.id)
               }
               onFirstItemSelect={selectFirstDropdownItem}
@@ -95,9 +94,9 @@ const DashboardSidebar = ({
                     <li
                       key={subItem.id}
                       onClick={() => setActiveTab(subItem.id)}
-                      className={
-                       "subitem" + activeTab === subItem.id ? "active-subitem" : ""
-                      }
+                      className={`subitem ${
+                        activeTab === subItem.id ? "active-subitem" : ""
+                      }`} // ✅ Corrected logic
                     >
                       {subItem.label}
                     </li>
@@ -111,6 +110,7 @@ const DashboardSidebar = ({
     </div>
   );
 };
+
 DashboardSidebar.propTypes = {
   activeTab: PropTypes.string.isRequired,
   setActiveTab: PropTypes.func.isRequired,

@@ -1,33 +1,52 @@
+/* ملف CSS محدث بشكل احترافي لـ StudentProfile */
+
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --bg-light: #f8f9fa;
+  --text-dark: #333;
+  --text-muted: #666;
+  --border-color: #ddd;
+  --radius: 6px;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f1f3f5;
+  margin: 0;
+}
+
 .profile-container {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: auto;
   padding: 2rem 1.5rem;
   direction: rtl;
 }
 
 .profile-title {
-  margin-bottom: 2rem;
   color: var(--primary-color);
-  font-size: 1.8rem;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
   text-align: right;
 }
 
 .profile-content {
   display: flex;
   gap: 2rem;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   overflow: hidden;
 }
 
-/* Profile sidebar */
+/* Sidebar */
 .profile-sidebar {
   width: 280px;
-  background-color: #f8f9fa;
+  background-color: var(--bg-light);
   padding: 2rem;
-  border-left: 1px solid #eaeaea;
-  flex-shrink: 0;
+  border-left: 1px solid var(--border-color);
 }
 
 .profile-avatar-section {
@@ -38,12 +57,12 @@
 }
 
 .profile-avatar {
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   overflow: hidden;
+  border: 4px solid var(--primary-color);
   margin-bottom: 1rem;
-  border: 3px solid var(--primary-color);
 }
 
 .profile-avatar img {
@@ -58,17 +77,16 @@
 }
 
 .profile-stats {
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background: white;
+  padding: 1.2rem;
+  border-radius: var(--radius);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .stat-item {
-  margin-bottom: 1rem;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  margin-bottom: 0.75rem;
 }
 
 .stat-item:last-child {
@@ -76,36 +94,34 @@
 }
 
 .stat-label {
-  color: #666;
+  color: var(--text-muted);
 }
 
 .stat-value {
   font-weight: bold;
   color: var(--primary-color);
-  font-size: 1.2rem;
 }
 
-/* Profile main content */
+/* Main section */
 .profile-main {
   flex: 1;
   padding: 2rem;
 }
 
 .profile-header {
-  margin-bottom: 1.5rem;
   border-bottom: 1px solid #eee;
   padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .profile-header h3 {
   margin: 0 0 0.5rem;
+  color: var(--text-dark);
   font-size: 1.5rem;
-  color: #333;
 }
 
 .profile-tagline {
-  color: #666;
-  margin: 0;
+  color: var(--text-muted);
 }
 
 .profile-actions {
@@ -133,15 +149,20 @@
   display: block;
   margin-bottom: 0.5rem;
   font-weight: bold;
-  color: #555;
+  color: var(--text-dark);
 }
 
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+.profile-form select {
   width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  color: var(--text-dark);
+  transition: all 0.2s ease;
   font-family: inherit;
 }
 
@@ -149,14 +170,32 @@
   resize: vertical;
 }
 
+.profile-form select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23666' d='M70 90L30 50h80z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 1rem center;
+  background-size: 12px;
+  padding-left: 2.5rem;
+  cursor: pointer;
+}
+
+.profile-form select:focus,
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--primary-color);
+  background-color: white;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.2);
+  outline: none;
+}
+
 .form-buttons {
   display: flex;
-  justify-content: flex-start;
   gap: 1rem;
   margin-top: 1.5rem;
 }
 
-/* Profile details view */
+/* Details section */
 .profile-details-view {
   margin-top: 1rem;
 }
@@ -167,8 +206,8 @@
 
 .details-section h4 {
   color: var(--primary-color);
-  margin-bottom: 1rem;
   font-size: 1.2rem;
+  margin-bottom: 1rem;
   border-bottom: 1px dashed #eee;
   padding-bottom: 0.5rem;
 }
@@ -180,17 +219,19 @@
 }
 
 .detail-item {
-  margin-bottom: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95rem;
 }
 
 .detail-label {
   font-weight: bold;
-  color: #666;
-  margin-left: 0.5rem;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
 }
 
 .detail-value {
-  color: #333;
+  color: var(--text-dark);
 }
 
 .bio-text {
@@ -207,19 +248,19 @@
 .skill-tag {
   background-color: rgba(0, 123, 255, 0.1);
   color: var(--primary-color);
-  padding: 0.35rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.9rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
 }
 
-/* Button styles */
+/* Buttons */
 .btn {
   padding: 0.6rem 1.2rem;
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  border-radius: var(--radius);
   font-weight: 600;
-  transition: all 0.2s;
+  cursor: pointer;
+  transition: 0.2s ease;
 }
 
 .btn-primary {
@@ -232,7 +273,7 @@
 }
 
 .btn-secondary {
-  background-color: #6c757d;
+  background-color: var(--secondary-color);
   color: white;
 }
 
@@ -241,7 +282,7 @@
 }
 
 .btn-success {
-  background-color: #28a745;
+  background-color: var(--success-color);
   color: white;
 }
 
@@ -250,7 +291,7 @@
 }
 
 .btn-danger {
-  background-color: #dc3545;
+  background-color: var(--danger-color);
   color: white;
 }
 
@@ -258,25 +299,24 @@
   background-color: #c82333;
 }
 
-/* Unauthorized message */
+/* Unauthorized */
 .unauthorized-message {
   text-align: center;
   padding: 3rem;
   max-width: 500px;
-  margin: 0 auto;
+  margin: auto;
 }
 
 .unauthorized-message h2 {
-  color: #dc3545;
+  color: var(--danger-color);
   margin-bottom: 1rem;
 }
 
-/* Responsive adjustments */
+/* Responsive */
 @media (max-width: 768px) {
   .profile-content {
     flex-direction: column;
   }
-
   .profile-sidebar {
     width: 100%;
     border-left: none;
@@ -284,28 +324,12 @@
   }
 }
 
-.dropdown-button {
-  position: relative;
-  display: inline-block;
-  background-color: var(--primary-color);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.dropdown-menu {
-    top: 100%;
-    right: 0;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    padding: 10px;
-  }
-  
-.dropdown-button:hover {
-  .dropdown-menu {
-    display: block;
-  }
+/* رسالة الخطأ */
+.error-msg {
+  color: #d93025; /* لون أحمر واضح */
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: block;
+  direction: rtl;
+  font-weight: 500;
 }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import "./Dashboard.css";
 
 const NavMenuItem = ({
@@ -15,22 +16,17 @@ const NavMenuItem = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  // Keep dropdown open if any of its children is selected
   const isChildActive =
     isDropdown && activeTab && activeTab.startsWith(firstItemId);
 
-  // Handle main button click
   const handleClick = (e) => {
     if (isDropdown && firstItemId) {
-      // If it's a dropdown, select the first item
       onFirstItemSelect(firstItemId);
     } else {
-      // Otherwise use the normal onClick handler
       onClick(e);
     }
   };
 
-  // Show dropdown on hover
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
@@ -39,7 +35,6 @@ const NavMenuItem = ({
     setIsHovered(false);
   };
 
-  // Determine if dropdown should be shown (on hover, if explicitly open, or if a child is active)
   const showDropdown = isDropdown && (isHovered || isOpen || isChildActive);
 
   return (
@@ -64,6 +59,20 @@ const NavMenuItem = ({
       )}
     </li>
   );
+};
+
+// ✅ Add PropTypes validation
+NavMenuItem.propTypes = {
+  icon: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  isDropdown: PropTypes.bool,
+  isActive: PropTypes.bool,
+  onClick: PropTypes.func,
+  isOpen: PropTypes.bool,
+  children: PropTypes.node,
+  onFirstItemSelect: PropTypes.func,
+  firstItemId: PropTypes.string,
+  activeTab: PropTypes.string,
 };
 
 export default NavMenuItem;
