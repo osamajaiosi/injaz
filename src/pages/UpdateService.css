@@ -1,0 +1,353 @@
+.add-service-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 3rem 2rem;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.add-service-container h2 {
+  text-align: center;
+  color: var(--primary-color);
+  font-size: 2rem;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+.add-service-container h2::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background-color: var(--primary-color);
+  border-radius: 3px;
+}
+
+.add-service-container label {
+  display: block;
+  font-weight: 600;
+  margin: 2rem 0 0.5rem;
+  color: var(--text-color);
+}
+
+.add-service-container input,
+.add-service-container textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  background-color: white;
+  color: var(--text-color);
+}
+
+.add-service-container input:focus,
+.add-service-container textarea:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #aaa;
+}
+
+textarea[name="features"] {
+  resize: none;
+}
+
+.image-upload {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.image-upload-item {
+  flex: 1;
+}
+
+/* الحقل المخصص للسعر */
+.price-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  background-color: #f8f8f8;
+  padding: 0;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.price-container input {
+  border: none;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  flex: 1;
+  background-color: white;
+  color: var(--text-color);
+  outline: none;
+}
+
+.currency-symbol {
+  background-color: #f0f0f0;
+  padding: 0.75rem 1rem;
+  color: var(--text-color);
+  font-weight: bold;
+  white-space: nowrap;
+  font-size: 1rem;
+  border-right: 1px solid #ccc;
+}
+
+/* زر الإرسال */
+.add-service-container button {
+  margin-top: 2rem;
+  padding: 0.9rem 2rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.add-service-container button:hover {
+  background-color: #cdcd04;
+  transform: scale(1.03);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* التنبيه للأخطاء */
+.input-error,
+input.input-error,
+textarea.input-error,
+.price-container input.input-error {
+  border: 2px solid var(--error-color) !important;
+  background-color: #fff2f2 !important;
+  border-radius: 10px;
+}
+
+/* Toast */
+.custom-toast {
+  font-size: 0.85rem !important;
+  padding: 12px 18px !important;
+  border-radius: 12px !important;
+  background-color: var(--toast-bg, #fff) !important;
+  color: var(--toast-text, #333) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+  border-right: 4px solid var(--primary-color);
+  max-width: 320px;
+  position: relative;
+  direction: rtl;
+  text-align: right;
+  line-height: 1.4;
+}
+/* 
+  .toast-close-btn {
+    position: absolute;
+    top: 6px;
+    left: 8px;
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    color: #888;
+    cursor: pointer;
+    padding: 2px 6px;
+    line-height: 1;
+    border-radius: 4px;
+    transition: background 0.2s;
+  } */
+/* 
+  .toast-close-btn:hover {
+    background-color: #cdcd04;
+    color: #000;
+  } */
+/* علاج نهائي لحقل السعر داخل price-container */
+.price-container input.input-error {
+  box-shadow: 0 0 0 2px var(--error-color) !important;
+  background-color: #fff2f2 !important;
+  border: none !important;
+  outline: none !important;
+  border-radius: 10px !important;
+}
+
+/* نفس الشي لرقم الهاتف */
+input[type="tel"].input-error {
+  border: 2px solid var(--error-color) !important;
+  background-color: #fff2f2 !important;
+  border-radius: 10px;
+}
+
+/* إضافي: توحيد كل الحقول */
+input.input-error,
+textarea.input-error {
+  border: 2px solid var(--error-color) !important;
+  background-color: #fff2f2 !important;
+  border-radius: 10px;
+}
+select,
+select.input-error {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: white;
+  color: var(--text-color);
+  transition: border-color 0.3s ease;
+  margin-bottom: 1rem;
+}
+
+select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+select.input-error {
+  border: 2px solid var(--error-color) !important;
+  background-color: #fff2f2 !important;
+}
+.input-error {
+  border: 2px solid red !important;
+  background-color: #ffe5e5;
+}
+.status-toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  width: 350px;
+}
+
+.status-toggle-btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.status-active {
+  background-color: #00bc13 !important; /* أحمر */
+}
+
+.status-inactive {
+  background-color: #ff4d4d !important; /* أخضر */
+}
+
+.status-label {
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.status-label.active {
+  color: #00bc13;
+}
+
+.status-label.inactive {
+  color: #ff4d4d !important;
+}
+.image-edit-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100px;
+}
+
+.editable-image {
+  width: 100px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.edit-image-btn {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+.edit-image-btn:hover {
+  background-color: #cdcd04;
+}
+.image-edit-overlay-wrapper {
+  position: relative;
+  width: 100px;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.editable-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+}
+
+.edit-image-overlay-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  z-index: 2;
+}
+
+.edit-image-overlay-btn:hover {
+  background-color: rgba(0, 0, 0, 0.85);
+}
+.main-image-overlay-wrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.main-editable-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  display: block;
+  object-fit: cover;
+}
+
+.edit-main-image-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 10px 14px; /* تكبير الزر */
+  font-size: 1.4rem; /* تكبير القلم */
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 2;
+  transition: background-color 0.3s ease;
+}
+
+.edit-main-image-btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}

@@ -9,7 +9,9 @@ import Register from "./pages/Register";
 import StudentDashboard from "./pages/StudentDashboard";
 import SubServicesPage from "./pages/SubServicesPage";
 import Servicespage from "./pages/Services";
-import Providerstudents from "./pages/Providerstudnts"; // التأكد من تضمين الصفحة
+import Providerstudents from "./pages/Providerstudnts";
+import AddService from "./pages/AddService";
+import UpdateService from "./pages/UpdateService"; // ✅ استيراد صفحة التعديل
 
 function App() {
   return (
@@ -32,8 +34,12 @@ function App() {
             <Route
               path="/providerstudents/:subServiceId"
               element={<Providerstudents />}
-            />{" "}
-            {/* إضافة المسار الصحيح */}
+            />
+            <Route path="/AddService" element={<AddService />} />
+            <Route
+              path="/update-service/:serviceId"
+              element={<UpdateService />}
+            />
           </Routes>
         </main>
         <Footer />
