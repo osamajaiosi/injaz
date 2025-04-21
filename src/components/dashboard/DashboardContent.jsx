@@ -1,13 +1,46 @@
-//import React from "react";
+// import React from "react";
+import PropTypes from "prop-types";
+import ReviewList from "./control-pages/ReviewList";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const DashboardContent = ({ activeTab }) => {
-  // Content sections based on activeTab
+  // ✅ الهوكس لازم تكون فوق
+  const [reviews, setReviews] = useState([
+    {
+      id: 1,
+      comment: "خدمة ممتازة وسريعة 👌",
+      rating: 5,
+    },
+    {
+      id: 2,
+      comment: "المراجعة كانت مفيدة ولكن تأخرت.",
+      rating: 4,
+    },
+  ]);
+  const [loading, setLoading] = useState(false); // false لأننا نستخدم بيانات وهمية مؤقتًا
+
+  // ✅ مهيأ للـ API لاحقًا
+  // useEffect(() => {
+  //   setLoading(true);
+  //   axios
+  //     .get("https://your-api.com/reviews")
+  //     .then((response) => {
+  //       setReviews(response.data);
+  //       setLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.error("فشل في جلب المراجعات", error);
+  //       setLoading(false);
+  //     });
+  // }, []);
+
   const renderContent = () => {
     switch (activeTab) {
       case "services-add":
         return (
           <div className="content-section">
-            <h2>إضافة خدمة</h2>
+            <h2>add خدمة</h2>
             <p>أدخل بيانات الخدمة الجديدة هنا.</p>
           </div>
         );
@@ -85,13 +118,30 @@ const DashboardContent = ({ activeTab }) => {
             </div>
           </div>
         );
+
+      // التقييمات والمراجعات
       case "sales-diagnostics":
         return (
           <div className="content-section">
-            <h2>التقييم والمراجعات</h2>
-            <p>قائمة بالمراجعات الأخيرة التي قمت بها.</p>
+            <h2 className="section-title">
+              <span className="title-icon">
+                <svg
+                  width="26"
+                  height="26"
+                  viewBox="0 0 24 24"
+                  fill="#f6b800"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M12 2l2.9 6h6.1l-4.95 4.25L17.8 20 12 16.5 6.2 20l1.75-7.75L3 8h6.1z" />
+                </svg>
+              </span>
+              التقييم والمراجعات
+            </h2>
+
+            <ReviewList reviews={reviews} />
           </div>
         );
+
       case "sales-stats":
         return (
           <div className="content-section">
@@ -110,6 +160,10 @@ const DashboardContent = ({ activeTab }) => {
   };
 
   return <div className="dashboard-content">{renderContent()}</div>;
+};
+
+DashboardContent.propTypes = {
+  activeTab: PropTypes.string.isRequired,
 };
 
 export default DashboardContent;
