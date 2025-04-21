@@ -1,0 +1,152 @@
+/* الحاوية الرئيسية */
+.add-service-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 3rem 2rem;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+/* العنوان */
+.add-service-container h2 {
+  text-align: center;
+  color: var(--primary-color);
+  font-size: 2rem;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+.add-service-container h2::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background-color: var(--primary-color);
+  border-radius: 3px;
+}
+
+/* تصميم التخطيط العام */
+.delete-service-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* التجميع بين الصورة والمعلومات */
+.info-top-row {
+  display: flex;
+  flex-direction: row-reverse; /* لأن RTL */
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* صورة الخدمة */
+.delete-image-wrapper {
+  flex: 0 0 220px;
+  max-width: 220px;
+  height: auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-image-wrapper img {
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+}
+
+/* المعلومات النصية */
+.text-info-section {
+  flex: 1;
+  min-width: 280px;
+  text-align: right;
+}
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.info-item label {
+  margin: 0;
+  white-space: nowrap;
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+.info-value-box {
+  flex: 1;
+  padding: 0.6rem 1rem;
+
+  text-align: right;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* الرسالة التحذيرية */
+.delete-warning-box {
+  background-color: #fff8f0;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid #f5c6cb;
+  color: #cc0000;
+  font-weight: bold;
+  margin-top: 7rem;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* أزرار التأكيد والإلغاء */
+.delete-buttons-wrapper {
+  display: flex;
+  gap: 10px;
+  margin-top: 2rem;
+  justify-content: center;
+}
+
+.delete-confirm-btn {
+  background-color: #00c853;
+  color: white;
+  padding: 0.9rem 2rem;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.delete-confirm-btn:hover {
+  background-color: #009624;
+  transform: scale(1.03);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cancel-delete-btn {
+  background-color: #ccc;
+  color: #333;
+  padding: 0.9rem 2rem;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-delete-btn:hover {
+  background-color: #b2b2b2;
+  transform: scale(1.03);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
