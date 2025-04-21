@@ -10,7 +10,7 @@ const ShowInfo = () => {
   const [personalInfo, setPersonalInfo] = useState(null);
   const [serviceInfo, setServiceInfo] = useState(null);
   const [images, setImages] = useState([]);
-  const [rating, setRating] = useState(4.5); // تقييم تجريبي
+  const [rating, setRating] = useState(null); // تقييم تجريبي
 
   const [mainServiceName, setMainServiceName] = useState("");
   const [subServiceName, setSubServiceName] = useState("");
@@ -43,10 +43,10 @@ const ShowInfo = () => {
         );
         setImages(Array.isArray(imgRes.data) ? imgRes.data : []);
 
-        // const ratingRes = await axios.get(
-        //   `http://eallaenjazapi.runasp.net/api/Rating/Get_Avrge_Rating_Sarves_By_Id_Student ${studentId}`
-        // );
-        // setRating(ratingRes.data);
+        const ratingRes = await axios.get(
+          `http://eallaenjazapi.runasp.net/api/Rating/Get_Avrge_Rating_Sarves_By_Id_Student ${studentId}`
+        );
+        setRating(ratingRes.data);
       } catch (error) {
         console.error("فشل في تحميل البيانات:", error);
       }
@@ -131,7 +131,7 @@ const ShowInfo = () => {
             <div className="rating-label">تقييم المستخدم</div>
             <Rating
               readonly
-              initialRating={4.5} // أو أي قيمة
+              initialRating={rating}
               emptySymbol={
                 <i
                   className="far fa-star"
