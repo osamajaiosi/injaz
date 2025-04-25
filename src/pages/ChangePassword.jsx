@@ -8,6 +8,8 @@ const ChangePassword = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  const id_person = 1; // عدله حسب المستخدم المسجل
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -19,17 +21,28 @@ const ChangePassword = () => {
     }
 
     try {
-      console.log("🚀 إرسال إلى السيرفر:", {
-        currentPassword,
-        newPassword,
+      const url = `http://eallaenjazapi.runasp.net/api/Person/Change_Password ${id_person}?Current_Password=${encodeURIComponent(
+        currentPassword
+      )}&New_Password=${encodeURIComponent(newPassword)}`;
+
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          Accept: "text/plain",
+        },
       });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || "حدث خطأ أثناء تغيير كلمة المرور");
+      }
 
       setSuccess("تم تغيير كلمة المرور بنجاح ✅");
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
     } catch (err) {
-      setError("حدث خطأ أثناء تغيير كلمة المرور ❌");
+      setError(err.message || "حدث خطأ أثناء تغيير كلمة المرور ❌");
     }
   };
 

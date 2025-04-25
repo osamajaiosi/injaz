@@ -1,7 +1,7 @@
-//import React from "react";
 import PropTypes from "prop-types";
 import SidebarProfile from "./SidebarProfile";
 import NavMenuItem from "./NavMenuItem";
+import { useNavigate } from "react-router-dom"; // ✅ لإضافة التوجيه
 
 const DashboardSidebar = ({
   activeTab,
@@ -9,6 +9,8 @@ const DashboardSidebar = ({
   openDropdown,
   toggleDropdown,
 }) => {
+  const navigate = useNavigate();
+
   const isTabActive = (tabPrefix) => {
     return typeof tabPrefix === "string"
       ? activeTab.startsWith(tabPrefix)
@@ -65,6 +67,9 @@ const DashboardSidebar = ({
     },
   ];
 
+  // ✅ ID ثابت مؤقتاً
+  const studentId = 2;
+
   return (
     <div className="dashboard-sidebar">
       <SidebarProfile />
@@ -81,7 +86,7 @@ const DashboardSidebar = ({
               isOpen={openDropdown === item.id}
               onClick={
                 item.isDropdown
-                  ? () => selectFirstDropdownItem(item.id) // ✅ Fixed
+                  ? () => selectFirstDropdownItem(item.id)
                   : () => setActiveTab(item.id)
               }
               onFirstItemSelect={selectFirstDropdownItem}
@@ -93,10 +98,23 @@ const DashboardSidebar = ({
                   {item.subItems.map((subItem) => (
                     <li
                       key={subItem.id}
-                      onClick={() => setActiveTab(subItem.id)}
+                      onClick={() => {
+                        setActiveTab(subItem.id);
+
+                        // ✅ التنقل حسب نوع التبويب مع studentId
+                        if (subItem.id === "services-add") {
+                          navigate("/AddService");
+                        } else if (subItem.id === "services-edit") {
+                          navigate(`/update-service/${studentId}`);
+                        } else if (subItem.id === "services-delete") {
+                          navigate(`/delete-service/${studentId}`);
+                        } else if (subItem.id === "services-view") {
+                          navigate(`/show-info/${studentId}`);
+                        }
+                      }}
                       className={`subitem ${
                         activeTab === subItem.id ? "active-subitem" : ""
-                      }`} // ✅ Corrected logic
+                      }`}
                     >
                       {subItem.label}
                     </li>

@@ -1,6 +1,6 @@
 //import React from "react";
 
-const SidebarProfile = ({ userName = "أحمد", userRole = "طالب" }) => {
+const SidebarProfile = ({ userName = "اسامة", userRole = "طالب" }) => {
   return (
     <div className="sidebar-header">
       <div className="user-avatar">

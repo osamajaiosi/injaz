@@ -23,9 +23,10 @@ import Providerstudents from "./pages/Providerstudnts";
 import AddService from "./pages/AddService";
 import UpdateService from "./pages/UpdateService";
 import DeleteService from "./pages/DeleteService";
-
-// ✅ صفحة عرض معلومات الخدمة
 import ShowInfo from "./pages/ShowInfo";
+
+// layout
+import DashboardLayout from "./components/dashboard/DashboardLayout";
 
 function App() {
   return (
@@ -40,12 +41,14 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+
             {/* صفحات الطالب */}
             <Route path="/student-dashboard" element={<StudentDashboard />} />
             <Route path="/profile" element={<StudentProfile />} />
             <Route path="/change-password" element={<ChangePassword />} />
             <Route path="/card-info" element={<CardInfo />} />
-            {/* صفحات الخدمات */}
+
+            {/* صفحات الخدمات خارجية */}
             <Route path="/servicespage" element={<Servicespage />} />
             <Route
               path="/services/:serviceName"
@@ -55,17 +58,60 @@ function App() {
               path="/providerstudents/:subServiceId"
               element={<Providerstudents />}
             />
-            <Route path="/AddService" element={<AddService />} />
+
+            {/* خدمات داخل DashboardLayout (مع sidebar ثابت) */}
+            <Route
+              path="/AddService"
+              element={
+                <DashboardLayout
+                  activeTab={"services-add"}
+                  setActiveTab={() => {}}
+                  openDropdown={"services"}
+                  toggleDropdown={() => {}}
+                >
+                  <AddService />
+                </DashboardLayout>
+              }
+            />
             <Route
               path="/update-service/:serviceId"
-              element={<UpdateService />}
+              element={
+                <DashboardLayout
+                  activeTab={"services-edit"}
+                  setActiveTab={() => {}}
+                  openDropdown={"services"}
+                  toggleDropdown={() => {}}
+                >
+                  <UpdateService />
+                </DashboardLayout>
+              }
             />
             <Route
               path="/delete-service/:serviceId"
-              element={<DeleteService />}
+              element={
+                <DashboardLayout
+                  activeTab={"services-delete"}
+                  setActiveTab={() => {}}
+                  openDropdown={"services"}
+                  toggleDropdown={() => {}}
+                >
+                  <DeleteService />
+                </DashboardLayout>
+              }
             />
-            <Route path="/show-info/:serviceId" element={<ShowInfo />} />{" "}
-            {/* ✅ راوت ShowInfo */}
+            <Route
+              path="/show-info/:serviceId"
+              element={
+                <DashboardLayout
+                  activeTab={"services-view"}
+                  setActiveTab={() => {}}
+                  openDropdown={"services"}
+                  toggleDropdown={() => {}}
+                >
+                  <ShowInfo />
+                </DashboardLayout>
+              }
+            />
           </Routes>
         </main>
         <Footer />
