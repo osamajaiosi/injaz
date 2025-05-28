@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import "./Providerstudnts.css";
 
@@ -38,32 +38,35 @@ const Providerstudents = () => {
 
         <div className="providers-grid">
           {providers.length > 0 ? (
-            providers.map((provider) => (
-              <div key={provider.id} className="provider-card">
-                <div className="provider-image">
-                  <img
-                    src={
-                      provider.imege_url &&
-                      provider.imege_url.startsWith("http")
-                        ? provider.imege_url
-                        : "/for-test-provider/software-developer-6521720-scaled.webp"
-                    }
-                    alt={provider.service_Address}
-                  />
+            providers.map((provider) => {
+              console.log('provider obj:', provider);
+              return (
+                <div key={provider.id} className="provider-card">
+                  <div className="provider-image">
+                    <img
+                      src={
+                        provider.imege_url &&
+                        provider.imege_url.startsWith("http")
+                          ? provider.imege_url
+                          : "/for-test-provider/software-developer-6521720-scaled.webp"
+                      }
+                      alt={provider.service_Address}
+                    />
+                  </div>
+                  <div className="provider-info">
+                    <h3>{provider.service_Address}</h3>
+                    <p className="price">ابتداءً من {provider.price} دينار</p>
+                    <p className="rating">⭐ التقييم: {provider.avg_rating}</p>
+                    <Link
+                      to={`/show-info/${provider.id}`}
+                      className="provider-link"
+                    >
+                      المزيد
+                    </Link>
+                  </div>
                 </div>
-                <div className="provider-info">
-                  <h3>{provider.service_Address}</h3>
-                  <p className="price">ابتداءً من {provider.price} ريال</p>
-                  <p className="rating">التقييم: ⭐ {provider.avg_rating}</p>
-                  <a
-                    href={`/providerdetails/${provider.id}`}
-                    className="provider-link"
-                  >
-                    المزيد
-                  </a>
-                </div>
-              </div>
-            ))
+              );
+            })
           ) : (
             <p className="no-services">لا توجد بيانات لمزودي الخدمة.</p>
           )}

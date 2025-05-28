@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";  
 import {
   ChevronLeft,
   BookOpen,
@@ -15,6 +15,7 @@ import {
   Users,
 } from "lucide-react";
 import axios from "axios";
+import PropTypes from 'prop-types';
 import "./Services.css";
 
 // خريطة تطابق أسماء الخدمات مع الأيقونات
@@ -33,7 +34,7 @@ const iconMap = {
   مهنية: Users,
 };
 
-const ServicesPage = () => {
+const ServicesPage = ({ limit }) => {
   const [services, setServices] = useState([]);
   
   useEffect(() => {
@@ -49,6 +50,8 @@ const ServicesPage = () => {
       });
   }, []);
 
+  const displayedServices = limit ? services.slice(0, limit) : services;
+
   return (
     <section className="services-section">
       <div className="services-container">
@@ -58,7 +61,7 @@ const ServicesPage = () => {
         </div>
 
         <div className="services-grid">
-          {services.map((service) => {
+          {displayedServices.map((service) => {
             // تنظيف اسم الخدمة لإزالة المسافات الزائدة والتأكد من التطابق مع خريطة الأيقونات
             const serviceName = service.name_Serves.trim();
             const IconComponent = iconMap[serviceName] || ChevronLeft;
@@ -82,6 +85,10 @@ const ServicesPage = () => {
       </div>
     </section>
   );
+};
+
+ServicesPage.propTypes = {
+  limit: PropTypes.number,
 };
 
 export default ServicesPage;

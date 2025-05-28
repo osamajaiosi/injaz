@@ -51,7 +51,7 @@ const SubServicesPage = () => {
 
         if (serviceId) {
           const response = await axios.get(
-            `http://eallaenjazapi.runasp.net/api/Branch_Serves/GET_ALL_BRANCH_SERVES_USING_ID_BRANCH_SERVES${serviceId}`,
+            `http://eallaenjazapi.runasp.net/api/Branch_Serves/GET_ALL_BRANCH_SERVES_USING_ID_NAME_SERVES${serviceId}`,
             { headers: { accept: "text/plain" } }
           );
 

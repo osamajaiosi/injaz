@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import SidebarProfile from "./SidebarProfile";
 import NavMenuItem from "./NavMenuItem";
-import { useNavigate } from "react-router-dom"; // ✅ لإضافة التوجيه
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../Contexts/AuthContext";
 
 const DashboardSidebar = ({
   activeTab,
@@ -10,6 +11,7 @@ const DashboardSidebar = ({
   toggleDropdown,
 }) => {
   const navigate = useNavigate();
+  const { idStudent: studentId } = useAuth();
 
   const isTabActive = (tabPrefix) => {
     return typeof tabPrefix === "string"
@@ -45,8 +47,9 @@ const DashboardSidebar = ({
       isDropdown: true,
       subItems: [
         { id: "underworking", label: "جاري العمل عليها" },
-        { id: "completed", label: "مكتمل" },
-        { id: "cancelled", label: "ملغية" },
+
+        { id: "orders-inbox", label: "الطلبات الواردة" },
+        { id: "orders-completed", label: "الطلبات المكتملة" }, // مضافة
       ],
     },
     {
@@ -67,9 +70,6 @@ const DashboardSidebar = ({
     },
   ];
 
-  // ✅ ID ثابت مؤقتاً
-  const studentId = 2;
-
   return (
     <div className="dashboard-sidebar">
       <SidebarProfile />
@@ -84,11 +84,17 @@ const DashboardSidebar = ({
               isDropdown={item.isDropdown}
               isActive={isTabActive(item.id)}
               isOpen={openDropdown === item.id}
-              onClick={
-                item.isDropdown
-                  ? () => selectFirstDropdownItem(item.id)
-                  : () => setActiveTab(item.id)
-              }
+              onClick={() => {
+                if (item.isDropdown) {
+                  selectFirstDropdownItem(item.id);
+                } else {
+                  setActiveTab(item.id);
+                  toggleDropdown("");
+                  if (item.id === "cards") {
+                    navigate("/card-info");
+                  }
+                }
+              }}
               onFirstItemSelect={selectFirstDropdownItem}
               firstItemId={item.id}
               activeTab={activeTab}
@@ -101,7 +107,7 @@ const DashboardSidebar = ({
                       onClick={() => {
                         setActiveTab(subItem.id);
 
-                        // ✅ التنقل حسب نوع التبويب مع studentId
+                        // التوجيه للصفحات حسب المعرف
                         if (subItem.id === "services-add") {
                           navigate("/AddService");
                         } else if (subItem.id === "services-edit") {
@@ -109,7 +115,19 @@ const DashboardSidebar = ({
                         } else if (subItem.id === "services-delete") {
                           navigate(`/delete-service/${studentId}`);
                         } else if (subItem.id === "services-view") {
-                          navigate(`/show-info/${studentId}`);
+                          navigate(`/dashboard/custom-show-info/${studentId}`);
+                        } else if (subItem.id === "underworking") {
+                          navigate("/on-progress");
+                        } else if (subItem.id === "orders-inbox") {
+                          navigate("/orders-inbox");
+                        } else if (subItem.id === "orders-completed") {
+                          navigate("/completed-orders");
+                        } else if (subItem.id === "cards") {
+                          navigate("/show-info/2");
+                        } else if (subItem.id === "sales-diagnostics") {
+                          navigate("/sales-diagnostics");
+                        } else if (subItem.id === "sales-stats") {
+                          navigate("/sales-stats");
                         }
                       }}
                       className={`subitem ${

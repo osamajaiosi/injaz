@@ -4,9 +4,11 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./DeleteService.css";
+import { useAuth } from "../Contexts/AuthContext";
 
 const DeleteService = () => {
   const { serviceId } = useParams();
+  const { idStudent } = useAuth();
 
   const [serviceData, setServiceData] = useState(null);
   const [mainServiceName, setMainServiceName] = useState("");
@@ -14,10 +16,11 @@ const DeleteService = () => {
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
+    if (idStudent == null) return;
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          `http://eallaenjazapi.runasp.net/api/Serves_Student/GET_Serves_Student_By_Id_Student${serviceId}`
+          `http://eallaenjazapi.runasp.net/api/Serves_Student/GET_Serves_Student_By_Id_Student${idStudent}`
         );
         const data = res.data;
         if (!data) {
@@ -47,7 +50,7 @@ const DeleteService = () => {
       }
     };
     fetchData();
-  }, [serviceId]);
+  }, [idStudent, serviceId]);
 
   const handleDelete = async () => {
     try {

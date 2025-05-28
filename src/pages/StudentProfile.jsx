@@ -4,7 +4,7 @@ import { useAuth } from "../Contexts/AuthContext";
 import "./StudentProfile.css";
 
 function StudentProfile() {
-  const { userType } = useAuth();
+  const { userType, idPerson, idStudent } = useAuth();
   const initialForm = {
     firstName: "",
     lastName: "",
@@ -27,12 +27,13 @@ function StudentProfile() {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
+    // only fetch after auth IDs loaded
+    if (idStudent == null || idPerson == null) return;
     const fetchData = async () => {
       try {
-        const idPerson = 1; // لاحقاً من الوجين
-        const idStudent = 2; // لاحقاً من الوجين
-
         // ✅ API 1: معلومات الطالب الأساسية (الاسم، الجنس، إيميل، هاتف، نبذة، صورة)
+        console.log(idPerson);
+        console.log(idStudent);
         const personRes = await axios.get(
           `http://eallaenjazapi.runasp.net/api/Person/GET_Info_PERSON_BY_ID_Person_Using_Profile_Person${idPerson}`
         );
@@ -86,9 +87,9 @@ function StudentProfile() {
     };
 
     fetchData();
-  }, []);
+  }, [idStudent, idPerson]);
 
-  if (userType !== "student") {
+  if (userType !== "STUDENT") {
     return (
       <div className="unauthorized-message">
         <h2>غير مصرح بالوصول</h2>
@@ -106,27 +107,28 @@ function StudentProfile() {
       return updatedErrors;
     });
   };
+
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
     setSelectedImage(file);
-
     try {
-      const idPerson = 1; // لاحقاً من الوجين
       const formDataImage = new FormData();
       formDataImage.append("imageFile", file);
 
       await axios.put(
         `http://eallaenjazapi.runasp.net/api/Person/Update_Imege_Profile ${idPerson}`,
         formDataImage,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
-
-      window.location.reload();
+      // re-fetch updated person data without page reload
+      const personRes = await axios.get(
+        `http://eallaenjazapi.runasp.net/api/Person/GET_Info_PERSON_BY_ID_Person_Using_Profile_Person${idPerson}`
+      );
+      const imgUrl = personRes.data.main_Imege_Url || "/avatar/avatar.png";
+      setFormData((prev) => ({ ...prev, profileImage: imgUrl }));
+      setOriginalData((prev) => ({ ...prev, profileImage: imgUrl }));
+      setSelectedImage(null);
     } catch (err) {
       console.error("❌ فشل في رفع الصورة:", err);
       alert("حدث خطأ أثناء رفع الصورة");
@@ -170,11 +172,10 @@ function StudentProfile() {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-
-    const idPerson = 1; // لاحقاً من الوجين
 
     const updateBody = {
       id: idPerson,

@@ -44,7 +44,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem;
-  margin-bottom: 3rem;
+  margin-bottom: 0; /* remove extra space below cards to attach button */
 }
 
 .service-card {
@@ -135,14 +135,15 @@
 
 .view-all-container {
   text-align: center;
-  margin-top: 2rem;
+  margin-top: 0; /* stick button to end of grid */
 }
 
 .view-all-btn {
   display: inline-block;
   padding: 1rem 2.5rem;
-  background-color: var(--primary-color);
-  color: white;
+  background-color: #fff;           /* match card background */
+  color: var(--primary-color);     /* primary color text */
+  border: 1px solid var(--primary-color); /* outline style */
   text-decoration: none;
   border-radius: 50px;
   font-weight: 600;
@@ -150,7 +151,8 @@
 }
 
 .view-all-btn:hover {
-  background-color: #cdcd04;
+  background-color: var(--primary-color); /* fill on hover */
+  color: #fff;
   transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }

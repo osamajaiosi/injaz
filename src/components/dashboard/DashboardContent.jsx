@@ -1,39 +1,11 @@
-// import React from "react";
 import PropTypes from "prop-types";
-import ReviewList from "./control-pages/ReviewList";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Reviews from "../../pages/orders/Reviews";
 
 const DashboardContent = ({ activeTab }) => {
   // ✅ الهوكس لازم تكون فوق
-  const [reviews, setReviews] = useState([
-    {
-      id: 1,
-      comment: "خدمة ممتازة وسريعة 👌",
-      rating: 5,
-    },
-    {
-      id: 2,
-      comment: "المراجعة كانت مفيدة ولكن تأخرت.",
-      rating: 4,
-    },
-  ]);
-  const [loading, setLoading] = useState(false); // false لأننا نستخدم بيانات وهمية مؤقتًا
 
-  // ✅ مهيأ للـ API لاحقًا
-  // useEffect(() => {
-  //   setLoading(true);
-  //   axios
-  //     .get("https://your-api.com/reviews")
-  //     .then((response) => {
-  //       setReviews(response.data);
-  //       setLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       console.error("فشل في جلب المراجعات", error);
-  //       setLoading(false);
-  //     });
-  // }, []);
+  const navigate = useNavigate();
 
   const renderContent = () => {
     switch (activeTab) {
@@ -90,57 +62,29 @@ const DashboardContent = ({ activeTab }) => {
         return (
           <div className="cards-section content-section">
             <h2>بطاقاتي</h2>
-            <div className="student-card">
+            <div
+              className="student-card"
+              style={{ cursor: 'pointer' }}
+              onClick={() => navigate(`/show-info/2`)}
+            >
               <div className="card-header">
                 <i className="fas fa-id-card fa-2x"></i>
                 <h3>بطاقة الطالب</h3>
               </div>
               <div className="card-details">
-                <p>
-                  <strong>الاسم:</strong> أحمد محمد
-                </p>
-                <p>
-                  <strong>رقم البطاقة:</strong> 123234345
-                </p>
-                <p>
-                  <strong>الكلية:</strong> كلية الهندسة
-                </p>
-                <p>
-                  <strong>القسم:</strong> قسم الكهرباء
-                </p>
-                <p>
-                  <strong>المرحلة:</strong> الثالثة
-                </p>
-                <p>
-                  <strong>الحالة:</strong> فعالة
-                </p>
+                <p><strong>الاسم:</strong> أحمد محمد</p>
+                <p><strong>رقم البطاقة:</strong> 123234345</p>
+                <p><strong>الكلية:</strong> كلية الهندسة</p>
+                <p><strong>القسم:</strong> قسم الكهرباء</p>
+                <p><strong>المرحلة:</strong> الثالثة</p>
+                <p><strong>الحالة:</strong> فعالة</p>
               </div>
             </div>
           </div>
         );
 
-      // التقييمات والمراجعات
       case "sales-diagnostics":
-        return (
-          <div className="content-section">
-            <h2 className="section-title">
-              <span className="title-icon">
-                <svg
-                  width="26"
-                  height="26"
-                  viewBox="0 0 24 24"
-                  fill="#f6b800"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M12 2l2.9 6h6.1l-4.95 4.25L17.8 20 12 16.5 6.2 20l1.75-7.75L3 8h6.1z" />
-                </svg>
-              </span>
-              التقييم والمراجعات
-            </h2>
-
-            <ReviewList reviews={reviews} />
-          </div>
-        );
+        return <Reviews />;
 
       case "sales-stats":
         return (

@@ -287,7 +287,7 @@
     padding: 0.7rem 0.8rem;
     margin-bottom: 1px;
     text-align: right;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid var(--primary-color);
     font-size: 0.9rem;
   }
 
@@ -328,10 +328,44 @@
     max-height: 320px;
   }
 }
+
+.orders-dropdown {
+  position: relative;
+}
+
+.orders-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: var(--background-color);
+  box-shadow: 0 2px 8px var(--shadow-color);
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.orders-dropdown-menu li {
+  margin: 0;
+}
+
+.orders-dropdown-menu .nav-link {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: var(--text-color);
+  white-space: nowrap;
+}
+
+.orders-dropdown-menu .nav-link:hover {
+  background-color: #28a745;
+  color: #fff;
+}
+
 .logo-img {
   padding-top: 16px;
-  height: 120px;
-  width: 120px;
+  height: 100px;
+  width: 90px;
 }
 
 .avatar-img {

@@ -1,0 +1,53 @@
+/* Reviews Component Styles */
+.reviews-container {
+  padding: 2rem;
+  background-color: #fff;
+}
+
+.rating-box {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.rating-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #f1f1f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.rating-label {
+  font-weight: 600;
+}
+
+.separator-line {
+  border: none;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 1rem 0;
+}
+
+.comments-section {
+  margin-top: 1rem;
+}
+
+.comment-item {
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.comment-text {
+  margin: 0 0 0.5rem 0;
+}
+
+.comment-rating {
+  display: inline-block;
+}

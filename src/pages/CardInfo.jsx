@@ -1,29 +1,29 @@
 import { useEffect, useState } from "react";
 import "./CardInfo.css";
+import axios from "axios";
+import { useAuth } from "../Contexts/AuthContext";
 
 const CardInfo = () => {
   const [cardData, setCardData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { idPerson } = useAuth();
 
   useEffect(() => {
+    if (idPerson == null) return;
     const fetchData = async () => {
-      const data = {
-        name: "أحمد محمد",
-        number: "1234-5678-9012",
-        expiresAt: "2027-01-01",
-        iban: "SA1234567890123456789012",
-        balance: "5,300 ر.س",
-        status: "مفعلة",
-      };
-
-      setTimeout(() => {
-        setCardData(data);
+      try {
+        const response = await axios.get(
+          `http://eallaenjazapi.runasp.net/api/Cradt_Card/GET_CRADET_CARD_BY_ID_Person?ID_Person=${idPerson}`
+        );
+        setCardData(response.data);
+      } catch (error) {
+        console.error("خطأ بجلب معلومات البطاقة:", error);
+      } finally {
         setLoading(false);
-      }, 500);
+      }
     };
-
     fetchData();
-  }, []);
+  }, [idPerson]);
 
   if (loading) {
     return <div className="loading">جاري تحميل البيانات...</div>;
@@ -40,33 +40,38 @@ const CardInfo = () => {
         </h2>
         <div className="card-field">
           <label>الاسم:</label>
-          <span>{cardData.name}</span>
+          <span>{cardData.full_name}</span>
+        </div>
+        <div className="card-field">
+          <label>البريد الإلكتروني:</label>
+          <span>{cardData.email}</span>
         </div>
         <div className="card-field">
           <label>رقم البطاقة:</label>
-          <span>{cardData.number}</span>
+          <span>{cardData.number_Card}</span>
         </div>
-        <div className="card-field">
-          <label>IBAN:</label>
-          <span>{cardData.iban}</span>
-        </div>
+      
         <div className="card-field">
           <label>الرصيد:</label>
-          <span>{cardData.balance}</span>
+          <span>{cardData.palnce} دينار </span>
         </div>
 
         <div className="card-field">
           <label>تاريخ الانتهاء:</label>
-          <span>{cardData.expiresAt}</span>
+          <span>{cardData.end_date}</span>
+        </div>
+        <div className="card-field">
+          <label>رمز الأمان:</label>
+          <span>{cardData.pin_Code}</span>
         </div>
         <div className="card-field status-row">
           <label>الحالة:</label>
           <span
             className={
-              cardData.status === "مفعلة" ? "status-active" : "status-inactive"
+              cardData.status_card === 1 ? "status-active" : "status-inactive"
             }
           >
-            {cardData.status}
+            {cardData.status_card === 1 ? "نشطة" : "غير نشطة"}
           </span>
         </div>
       </div>

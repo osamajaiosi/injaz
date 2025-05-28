@@ -10,7 +10,7 @@ function StudentDashboard() {
   const [openDropdown, setOpenDropdown] = useState(null);
 
   // Redirect if not a student
-  if (userType !== "student") {
+  if (userType !== "STUDENT") {
     return (
       <div className="unauthorized-message">
         <h2>غير مصرح بالوصول</h2>

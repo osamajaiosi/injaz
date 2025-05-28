@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./UpdateService.css";
+import { useAuth } from "../Contexts/AuthContext";
 
 const UpdateService = () => {
-  const studentId = 2;
+  const { idStudent: studentId } = useAuth();
 
   const [serviceData, setServiceData] = useState(null);
   const [images, setImages] = useState([]);
@@ -24,6 +25,7 @@ const UpdateService = () => {
   const [isActive, setIsActive] = useState(true); // الحالة الفعالة أو المتوقفة
 
   useEffect(() => {
+    if (studentId == null) return;
     const fetchData = async () => {
       try {
         const serviceRes = await axios.get(
@@ -75,7 +77,7 @@ const UpdateService = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [studentId]);
   const handleSubmit = async () => {
     if (!serviceData) {
       toast.error("⚠️ لا توجد بيانات خدمة حالياً!");
@@ -93,10 +95,10 @@ const UpdateService = () => {
     if (
       !phoneNumber.trim() ||
       phoneNumber.length !== 10 ||
-      !/^079\d{7}$/.test(phoneNumber)
+      !/^07\d{8}$/.test(phoneNumber)
     ) {
       newErrors.phoneNumber = true;
-      toast.error("📱 رقم الهاتف يجب أن يكون 10 أرقام ويبدأ بـ 079");
+      toast.error("📱 رقم الهاتف يجب أن يكون 10 أرقام ويبدأ بـ 07");
     }
 
     setErrors(newErrors);

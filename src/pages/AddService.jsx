@@ -3,8 +3,10 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./AddsService.css";
+import { useAuth } from "../Contexts/AuthContext";
 
 const AddService = () => {
+  const { idStudent } = useAuth();
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [title, setTitle] = useState("");
@@ -13,7 +15,7 @@ const AddService = () => {
   const [platformLink, setPlatformLink] = useState("");
   const [clientDetails, setClientDetails] = useState("");
   const [servicePrice, setServicePrice] = useState("10");
-  const [phoneNumber, setPhoneNumber] = useState("079");
+  const [phoneNumber, setPhoneNumber] = useState("07");
   const [previousWorkImages, setPreviousWorkImages] = useState([
     null,
     null,
@@ -39,7 +41,7 @@ const AddService = () => {
     if (selectedMainServiceId) {
       axios
         .get(
-          `http://eallaenjazapi.runasp.net/api/Branch_Serves/GET_ALL_BRANCH_SERVES_USING_ID_BRANCH_SERVES${selectedMainServiceId}`
+          `http://eallaenjazapi.runasp.net/api/Branch_Serves/GET_ALL_BRANCH_SERVES_USING_ID_NAME_SERVES${selectedMainServiceId}`
         )
         .then((response) => setSubServices(response.data))
         .catch((error) => console.error("خطأ بجلب الخدمات الفرعية:", error));
@@ -66,9 +68,9 @@ const AddService = () => {
     if (!features.trim()) newErrors.features = true;
     if (!platformLink.trim()) newErrors.platformLink = true;
     if (!clientDetails.trim()) newErrors.clientDetails = true;
-    if (!phoneNumber.trim() || phoneNumber.length !== 10) {
+    if (!/^07[0-9]{8}$/.test(phoneNumber)) {
       newErrors.phoneNumber = true;
-      toast.error("📱 رقم الهاتف يجب أن يكون مكونًا من 10 أرقام ويبدأ بـ 079");
+      toast.error("📱 رقم الهاتف يجب أن يبدأ بـ 07 ويتكون من 10 أرقام فقط");
     }
     if (!servicePrice.trim()) newErrors.servicePrice = true;
     if (!selectedMainServiceId) newErrors.selectedMainServiceId = true;
@@ -91,7 +93,7 @@ const AddService = () => {
       preview_link: platformLink,
       description_works: clientDetails,
       iD_Statue_Serves: 3,
-      iD_Student: 2,
+      iD_Student: idStudent,
       date_Enroll: new Date().toISOString(),
     };
 
@@ -119,7 +121,7 @@ const AddService = () => {
 
       await Promise.all(uploadPromises.filter(Boolean));
       toast.success("✅ تمت إضافة الخدمة والصور بنجاح!");
-    } catch (error) {
+    } catch (error) {console.log( idStudent);
       toast.error("❌ فشل في إرسال البيانات أو الصور.");
       console.error(error);
     }
@@ -280,7 +282,7 @@ const AddService = () => {
         value={phoneNumber}
         onChange={(e) => {
           const value = e.target.value;
-          if (/^079\d{0,7}$/.test(value)) {
+          if (/^07\d{0,8}$/.test(value)) {
             setPhoneNumber(value);
           }
         }}

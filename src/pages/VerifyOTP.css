@@ -1,0 +1,150 @@
+.otp-container {
+  max-width: 400px;
+  margin: 8rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  direction: rtl;
+}
+
+.otp-container h2 {
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+  font-size: 1.7rem;
+}
+
+.otp-container p {
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+}
+
+.otp-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.otp-inputs {
+  direction: ltr;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.otp-input {
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  text-align: center;
+  border: 1px solid var(--primary-color);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.otp-input:focus {
+  border-color: var(--primary-color);
+}
+
+.error-message {
+  color: var(--error-color);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.btn.otp-submit {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  width: 100%;
+  max-width: 200px;
+  transition: background 0.3s ease;
+}
+
+.btn.otp-submit:hover {
+  background-color: #cdcd04;
+}
+
+/* Actions below OTP inputs */
+.otp-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+.timer {
+  color: var(--text-color);
+  min-width: 3.5rem;
+  text-align: center;
+}
+.resend-btn,
+.support-btn {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  transition: color 0.2s;
+}
+.resend-btn:disabled {
+  color: #aaa;
+  cursor: default;
+}
+.support-btn {
+  color: var(--primary-color);
+}
+.support-btn:hover {
+  color: #f6b800;
+}
+.resend-btn:not(:disabled):hover {
+  color: #f6b800;
+}
+
+/* Smooth fade-out for OTP container on success */
+.otp-container.fade-out {
+  animation: fadeOut 0.6s ease-out forwards;
+}
+
+/* Success overlay fade-in */
+.success-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.6s ease-out forwards;
+  z-index: 10;
+}
+
+.success-message {
+  background: #fff;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

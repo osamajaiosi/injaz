@@ -1,12 +1,18 @@
+import { useState } from "react";
 import DashboardSidebar from "./DashboardSidebar";
 
 const DashboardLayout = ({
   children,
-  activeTab,
-  setActiveTab,
-  openDropdown,
-  toggleDropdown,
+  activeTab: initialTab,
+  openDropdown: initialDropdown,
 }) => {
+  const [activeTab, setActiveTab] = useState(initialTab || "");
+  const [openDropdown, setOpenDropdown] = useState(initialDropdown || "");
+
+  const toggleDropdown = (id) => {
+    setOpenDropdown((prev) => (prev === id ? "" : id));
+  };
+
   return (
     <div className="dashboard-layout" style={{ display: "flex" }}>
       <DashboardSidebar

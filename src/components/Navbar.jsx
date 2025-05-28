@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../Contexts/AuthContext";
 import "./Navbar.css";
 import UserDropdown from "../pages/UserDropdown";
@@ -7,8 +7,10 @@ import UserDropdown from "../pages/UserDropdown";
 function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [showOrdersMenu, setShowOrdersMenu] = useState(false);
 
   const { userType, logout } = useAuth();
+  const navigate = useNavigate();
   console.log(userType); // لرؤية قيمة userType في الكونسول
 
   const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
@@ -24,56 +26,78 @@ function Navbar() {
   return (
     <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
       <div className="nav-container">
-        <Link to="/" className="nav-logo">
+        <Link to="/home" className="nav-logo">
           <img
             className="logo-img"
-            src="/logo/WhatsApp Image 2025-03-16 at 10.58.45 PM (1).png"
+            src="/logo/nlogo_transparent.png"
             alt="My Image"
           />
         </Link>
 
         <div className={`nav-menu ${mobileMenuOpen ? "active" : ""}`}>
-          {/* -------------------- روابط عامة تظهر فقط إذا لم يكن المستخدم طالب -------------------- */}
-          {userType !== "student" && (
+          {/* -------------------- الضيف -------------------- */}
+          {userType === "guest" && (
             <>
-              <Link
-                to="/servicespage"
-                className="nav-link"
-                onClick={toggleMobileMenu}
-              >
+              <Link to="/servicespage" className="nav-link" onClick={toggleMobileMenu}>
                 الخدمات
               </Link>
               <Link to="/about" className="nav-link" onClick={toggleMobileMenu}>
                 من نحن
               </Link>
-              <Link
-                to="/contact"
-                className="nav-link"
-                onClick={toggleMobileMenu}
-              >
-                اتصل بنا
+              <Link to="/contact" className="nav-link" onClick={toggleMobileMenu}>
+                تواصل معنا
               </Link>
-            </>
-          )}
-
-          {/* -------------------- الضيف -------------------- */}
-          {userType === "guest" && (
-            <>
               <Link to="/login" className="nav-link" onClick={toggleMobileMenu}>
                 تسجيل الدخول
               </Link>
-              <Link
-                to="/register"
-                className="nav-link"
-                onClick={toggleMobileMenu}
-              >
+              <Link to="/register" className="nav-link" onClick={toggleMobileMenu}>
                 إنشاء حساب
               </Link>
             </>
           )}
 
+          {/* -------------------- الخدمات لجميع المستخدمين المسجلين -------------------- */}
+          {userType !== "guest" && (
+            <Link
+              to="/servicespage"
+              className="nav-link"
+              onClick={toggleMobileMenu}
+            >
+              الخدمات
+            </Link>
+          )}
+          {userType !== "guest" && (
+            <div
+              className="nav-link orders-dropdown"
+              onMouseEnter={() => setShowOrdersMenu(true)}
+              onMouseLeave={() => setShowOrdersMenu(false)}
+              onClick={() => setShowOrdersMenu(!showOrdersMenu)}
+            >
+              طلباتي
+              {showOrdersMenu && (
+                <ul className="orders-dropdown-menu">
+                  <li>
+                    <Link to="/orders-not-approved" className="nav-link" onClick={() => { setShowOrdersMenu(false); toggleMobileMenu(); }}>
+                      طلبات لم يتم الموافقة عليها
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/on-progress-orders" className="nav-link" onClick={() => { setShowOrdersMenu(false); toggleMobileMenu(); }}>
+                      الطلبات جاري العمل عليها للطالب
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/student-completed-orders" className="nav-link" onClick={() => { setShowOrdersMenu(false); toggleMobileMenu(); }}>
+                      طلبات مكتملة
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </div>
+          )}
+
           {/* -------------------- الطالب -------------------- */}
-          {userType === "student" && (
+          {userType === "STUDENT" && (
             <>
               <Link
                 to="/student-dashboard"
@@ -83,66 +107,71 @@ function Navbar() {
                 لوحة التحكم{" "}
               </Link>
               <Link
-                to="/student-announcements"
+                to="/orders-inbox"
                 className="nav-link"
                 onClick={toggleMobileMenu}
               >
-                اعلاناتي
+                الطلبات الواردة
               </Link>
               <Link
-                to="/student-requests"
+                to="/add-request"
                 className="nav-link"
                 onClick={toggleMobileMenu}
               >
-                طلباتي
+                إضافة طلب
               </Link>
+             
               <span
                 className="nav-link"
                 onClick={() => {
                   logout();
                   toggleMobileMenu();
+                  navigate("/");
                 }}
               >
                 تسجيل الخروج
               </span>
-              <UserDropdown profilePath="/user-profile" />
+              <UserDropdown profilePath="/card-info" />
             </>
           )}
 
           {/* -------------------- يوزر عادي -------------------- */}
-          {userType === "user" && (
+          {userType === "USER" && (
             <>
               <Link
-                to="/user-dashboard"
+                to="/add-request"
                 className="nav-link"
                 onClick={toggleMobileMenu}
               >
-                الطلبات
+                إضافة طلب
+              </Link>
+              {/* روابط عامة تظهر لمستخدم عادي */}
+              <Link
+                to="/about"
+                className="nav-link"
+                onClick={toggleMobileMenu}
+              >
+                من نحن
+              </Link>
+              <Link
+                to="/contact"
+                className="nav-link"
+                onClick={toggleMobileMenu}
+              >
+                اتصل بنا
               </Link>
               <span
                 className="nav-link"
                 onClick={() => {
                   logout();
                   toggleMobileMenu();
+                  navigate("/");
                 }}
               >
                 تسجيل الخروج
               </span>
-              <Link to="/user-profile" onClick={toggleMobileMenu}>
-                <img
-                  src="/avatar/avatar.png"
-                  alt="الملف الشخصي"
-                  className="avatar-img"
-                  style={{
-                    width: "65px",
-                    height: "65px",
-                    borderRadius: "50%",
-                    cursor: "pointer",
-                    marginRight: "10px",
-                    marginTop: "10px",
-                  }}
-                />
-              </Link>
+              {/* عرض Dropdown للمستخدم */}
+              <UserDropdown profilePath="/profile" />
             </>
           )}
         </div>
