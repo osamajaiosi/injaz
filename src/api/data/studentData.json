@@ -1,0 +1,51 @@
+{
+  "profile": {
+    "id": "st123456",
+    "name": "أحمد محمد",
+    "email": "ahmed@example.com",
+    "phone": "+966 50 123 4567",
+    "specialty": "هندسة برمجيات",
+    "bio": "طالب هندسة برمجيات في السنة الثالثة، مهتم بتطوير الويب وتطبيقات الموبايل.",
+    "address": "الرياض، المملكة العربية السعودية",
+    "university": "جامعة الملك سعود",
+    "graduationYear": "2026",
+    "avatar": "/avatar/avatar.png",
+    "skills": [
+      "JavaScript",
+      "React",
+      "Node.js",
+      "HTML/CSS",
+      "تصميم واجهات المستخدم"
+    ]
+  },
+  "stats": {
+    "completedProjects": 12,
+    "currentRequests": 3,
+    "rating": "4.8"
+  },
+  "courses": {
+    "total": 5,
+    "homework": 3,
+    "completedTasks": 12
+  },
+  "upcomingTasks": [
+    {
+      "id": "task1",
+      "date": "15 أبريل 2025",
+      "title": "تسليم مشروع الفيزياء",
+      "description": "تجربة فيزيائية عملية"
+    },
+    {
+      "id": "task2",
+      "date": "20 أبريل 2025",
+      "title": "اختبار الرياضيات",
+      "description": "الوحدة الثالثة - المعادلات التفاضلية"
+    },
+    {
+      "id": "task3",
+      "date": "25 أبريل 2025",
+      "title": "تقديم بحث الأدب العربي",
+      "description": "عن الشعر في العصر الأموي"
+    }
+  ]
+}

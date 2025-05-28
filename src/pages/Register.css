@@ -1,0 +1,213 @@
+/* Register.css */
+/* Layout container */
+.register-container {
+  display: flex;
+  flex-direction: row-reverse;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  overflow: hidden; /* allow circle to extend beyond container */
+}
+
+/* Left form section */
+.left-section {
+  flex: 1;
+  background: #fff; /* white background for sign-up */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  z-index: 1;
+  overflow: hidden; /* hide overflow for form animation */
+}
+
+.form-wrapper {
+  width: 100%;
+  max-width: 480px;
+  /* animate form entrance */
+  transform: translateX(-200%);
+  transition: transform 0.6s ease;
+}
+
+.form-title {
+  text-align: center;
+  color: var(--primary-color)!important;
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+}
+
+.register-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.register-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+  font-size: 0.95rem;
+}
+
+.register-form input,
+.register-form select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--background-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  color: var(--text-color);
+  background: var(--background-color);
+}
+
+/* Phone group */
+.phone-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.phone-group .select-wrapper {
+  position: relative;
+  flex: 0 0 35%;
+}
+
+.phone-group input {
+  flex: 1;
+}
+
+/* Arrow for selects */
+.select-wrapper .arrow {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  width: 0.65rem;
+  height: 0.65rem;
+  border-right: 2px solid var(--text-color);
+  border-bottom: 2px solid var(--text-color);
+  transform: translateY(-50%) rotate(45deg);
+  pointer-events: none;
+}
+
+/* Two columns */
+.two-cols {
+  display: flex;
+  gap: 1rem;
+}
+
+.two-cols > div {
+  flex: 1;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.submit-btn {
+  width: 100%;
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  margin-top: 1rem;
+}
+
+.submit-btn:hover {
+  background: #cdcd04;
+  opacity: 0.9;
+}
+
+/* Right info section */
+.right-section {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  color: #fff;
+  background: var(--primary-color);
+  border-top-left-radius: -20%;
+  border-bottom-left-radius: 100%;
+  overflow: hidden;
+  padding-top: 2rem;
+  transform: translateX(100%);
+}
+
+/* Remove old background pseudo */
+.right-section::before {
+  background: var(--primary-color);
+  display: block;
+  
+}
+
+.info-content {
+  max-width: 360px;
+  text-align: center;
+  position: relative;
+  top:100px;
+  left: 100px;
+}
+
+.logo {
+  width: 180px;
+  margin-bottom: 1.5rem;
+  display: none;
+}
+
+.info-text {
+  line-height: 1.6;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.login-btn {
+  display: inline-block;
+  background: #cdcd04; /* yellow button like hover */
+  color: #fff;
+  border: none;
+  margin-bottom: 2rem;
+  padding: 0.5rem 1rem;
+  border-radius: 25px !important;
+}
+
+.login-btn:hover {
+  background: #b0b004;
+  cursor: pointer;
+}
+
+.illustration {
+  width: 400px;
+  max-width: 400px;
+  display: block;
+  margin: 100px auto 0;
+  opacity: 0.9;
+}
+
+/* Transitions */
+.register-container .right-section,
+.register-container .left-section {
+  transition: transform 0.6s ease;
+}
+.register-container.slide-login .right-section {
+  transform: translateX(100%);
+}
+.register-container.slide-register .left-section {
+  transform: translateX(-100%);
+}
+.register-container.show-circle .right-section {
+  transform: translateX(0);
+}
+/* slide in form */
+.register-container.show-circle .left-section .form-wrapper {
+  transform: translateX(0);
+}
+/* slide out form on login transition */
+.register-container.slide-login .left-section .form-wrapper {
+  transform: translateX(-200%);
+}
+/* also hide on register repeat */
+.register-container.slide-register .left-section .form-wrapper {
+  transform: translateX(200%);
+}
