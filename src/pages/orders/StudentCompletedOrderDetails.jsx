@@ -54,6 +54,9 @@ const StudentCompletedOrderDetails = () => {
   const [hoverComplaintCard, setHoverComplaintCard] = useState(false);
   const [hoverComplaintBtn, setHoverComplaintBtn] = useState(false);
   const [attachedFiles, setAttachedFiles] = useState([]);
+  const [paymentInfo, setPaymentInfo] = useState(null);
+  const [transactions, setTransactions] = useState([]);
+  const [reservedBalance, setReservedBalance] = useState(null);
 
   useEffect(() => {
     axios
@@ -85,7 +88,21 @@ const StudentCompletedOrderDetails = () => {
   }, [id]);
 
   useEffect(() => {
-    if (activeStep === 5) {
+    if (activeStep === 3) {
+      axios.get(`http://eallaenjazapi.runasp.net/api/Buyment/GET_INFO_Buyment_By_ID_Orders${id}`)
+        .then(res => setPaymentInfo(res.data))
+        .catch(console.error);
+      axios.get(`http://eallaenjazapi.runasp.net/api/Transaction/GET_ALL_TRANSACTION_BY_ID_ORDERS${id}`)
+        .then(res => setTransactions(res.data))
+        .catch(console.error);
+      axios.get(`http://eallaenjazapi.runasp.net/api/Transaction/GET_Knowing_the_outstanding_balance_in_the_system_By_Id_Order${id}`)
+        .then(res => setReservedBalance(res.data))
+        .catch(console.error);
+    }
+  }, [activeStep, id]);
+
+  useEffect(() => {
+    if (activeStep === 6) {
       axios
         .get(`http://eallaenjazapi.runasp.net/api/Files/GET_ALL_GET_ALL_FILES_BY_ID_ORDERS${id}`)
         .then((res) => {
@@ -178,7 +195,7 @@ const StudentCompletedOrderDetails = () => {
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
       <h2 className="section-title-main">تفاصيل الطلب المكتمل للطالب</h2>
       <div className="steps-navigation labeled">
-        {[1, 2, 3,4, 5].map((step) => (
+        {[1, 2, 3, 4, 5, 6].map((step) => (
           <div
             key={step}
             className="step-item"
@@ -191,9 +208,10 @@ const StudentCompletedOrderDetails = () => {
               {{
                 1: "معلومات الطلب",
                 2: "معلومات مزود الخدمة",
-                3: "التقييم",
-                4: "الشكوى",
-                5: "الملفات المرفقة",
+                3: "تفاصيل الدفع",
+                4: "التقييم",
+                5: "الشكوى",
+                6: "الملفات المرفقة",
               }[step]}
             </span>
           </div>
@@ -278,6 +296,48 @@ const StudentCompletedOrderDetails = () => {
       )}
 
       {activeStep === 3 && (
+        <div className="step-content">
+          <h3 className="section-title">تفاصيل الدفع</h3>
+          {paymentInfo ? (
+            <>
+              <div className="payment-summary">
+                <div className="payment-data-title">بيانات الدفع</div>
+                <div><strong>رقم العملية:</strong> {paymentInfo.id}</div>
+                <div><strong>المبلغ المدفوع:</strong> {paymentInfo.amount} د.أ</div>
+                <div><strong>تاريخ الدفع:</strong> {new Date(paymentInfo.date).toLocaleDateString("ar-EG")}</div>
+                <div><strong>طريقة الدفع:</strong> دفع الكتروني</div>
+              </div>
+              <table className="transactions-table">
+                <thead>
+                  <tr>
+                    <th>رقم العملية</th>
+                    <th>المبلغ</th>
+                    <th>التاريخ</th>
+                    <th>الإشراف</th>
+                    <th>ملاحظات</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {transactions.map(tx => (
+                    <tr key={tx.id}>
+                      <td>{tx.id}</td>
+                      <td>{tx.amount} د.أ</td>
+                      <td>{new Date(tx.transactionDate).toLocaleDateString("ar-EG")}</td>
+                      <td>{tx.supervisedBy}</td>
+                      <td>{tx.note}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <p className="balance-summary"><strong>المبلغ المحجوز حالياً:</strong> {reservedBalance} د.أ</p>
+            </>
+          ) : (
+            <p>جاري تحميل بيانات الدفع...</p>
+          )}
+        </div>
+      )}
+
+      {activeStep === 4 && (
         <div className="step-content">
           <h3 className="section-title">التقييم</h3>
           {ratingInfo ? (
@@ -392,7 +452,7 @@ const StudentCompletedOrderDetails = () => {
         </div>
       )}
 
-      {activeStep === 4 && (
+      {activeStep === 5 && (
         <div className="step-content">
           <h3 className="section-title">الشكوى</h3>
           {complaintInfo ? (
@@ -461,7 +521,7 @@ const StudentCompletedOrderDetails = () => {
         </div>
       )}
 
-      {activeStep === 5 && (
+      {activeStep === 6 && (
         <div className="step-content">
           <h3 className="section-title">الملفات المرفقة</h3>
           {attachedFiles.length > 0 ? (

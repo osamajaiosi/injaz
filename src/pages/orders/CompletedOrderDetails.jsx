@@ -41,6 +41,9 @@ const CompletedOrderDetails = () => {
   const [ratingInfo, setRatingInfo] = useState(null);
   const [complaintInfo, setComplaintInfo] = useState(null);
   const [attachedFiles, setAttachedFiles] = useState([]);
+  const [paymentInfo, setPaymentInfo] = useState(null);
+  const [transactions, setTransactions] = useState([]);
+  const [reservedBalance, setReservedBalance] = useState(null);
 
   useEffect(() => {
     axios
@@ -78,7 +81,7 @@ const CompletedOrderDetails = () => {
 
         axios
           .get(
-            `http://eallaenjazapi.runasp.net/api/Complaints/GET_Complaints_BY_ID_ORDERS1`
+            `http://eallaenjazapi.runasp.net/api/Complaints/GET_Complaints_BY_ID_ORDERS${id}`
           )
           .then((res) => setComplaintInfo(res.data))
           .catch(() => setComplaintInfo(null));
@@ -92,6 +95,23 @@ const CompletedOrderDetails = () => {
         .get(`http://eallaenjazapi.runasp.net/api/Files/GET_ALL_GET_ALL_FILES_BY_ID_ORDERS${id}`)
         .then((res) => setAttachedFiles(res.data))
         .catch((err) => console.error("فشل في جلب الملفات:", err));
+    }
+  }, [activeStep, id]);
+
+  useEffect(() => {
+    if (activeStep === 3) {
+      axios
+        .get(`http://eallaenjazapi.runasp.net/api/Buyment/GET_INFO_Buyment_By_ID_Orders${id}`)
+        .then((res) => setPaymentInfo(res.data))
+        .catch((err) => console.error("Buyment error:", err));
+      axios
+        .get(`http://eallaenjazapi.runasp.net/api/Transaction/GET_ALL_TRANSACTION_BY_ID_ORDERS${id}`)
+        .then((res) => setTransactions(res.data))
+        .catch((err) => console.error("Transaction error:", err));
+      axios
+        .get(`http://eallaenjazapi.runasp.net/api/Transaction/GET_Knowing_the_outstanding_balance_in_the_system_By_Id_Order${id}`)
+        .then((res) => setReservedBalance(res.data))
+        .catch((err) => console.error("Balance error:", err));
     }
   }, [activeStep, id]);
 
@@ -303,17 +323,53 @@ const CompletedOrderDetails = () => {
         </div>
       )}
 
-      {/* Step 3: Payment (معلق) */}
+      {/* Step 3: Payment Details */}
       {activeStep === 3 && (
         <div className="step-content">
           <h3 className="section-title">تفاصيل الدفع</h3>
-          <p>
-            <i className="fas fa-credit-card icon"></i> لم يتم تفعيل واجهة الدفع
-            بعد.
-          </p>
+          {paymentInfo ? (
+            <>
+              <div className="payment-summary">
+                <div className="payment-data-title">بيانات الدفع</div>
+                <div><strong>رقم العملية:</strong> {paymentInfo.id}</div>
+                <div><strong>المبلغ المدفوع:</strong> {paymentInfo.amount} د.أ</div>
+                <div><strong>تاريخ الدفع:</strong> {new Date(paymentInfo.date).toLocaleDateString("ar-EG")}</div>
+                <div><strong>طريقة الدفع:</strong> دفع الكتروني</div>
+              </div>
+              <table className="transactions-table">
+                <thead>
+                  <tr>
+                    <th>رقم العملية</th>
+                    <th>المبلغ</th>
+                    <th>التاريخ</th>
+                    <th>الإشراف</th>
+                    <th>ملاحظات</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {transactions.map((tx) => (
+                    <tr key={tx.id}>
+                      <td>{tx.id}</td>
+                      <td>{tx.amount} د.أ</td>
+                      <td>{new Date(tx.transactionDate).toLocaleDateString("ar-EG")}</td>
+                      <td>{tx.supervisedBy}</td>
+                      <td>{tx.note}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="balance-summary">
+                <span><strong>المبلغ المحجوز/المستحق:</strong></span>
+                <span>{reservedBalance} د.أ</span>
+              </div>
+            </>
+          ) : (
+            <p>جاري تحميل بيانات الدفع...</p>
+          )}
         </div>
       )}
 
+      {/* Step 4: Rating */}
       {activeStep === 4 && (
         <div className="step-content">
           <h3 className="section-title">التقييم</h3>

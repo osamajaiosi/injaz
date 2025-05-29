@@ -2,21 +2,23 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import "./OrdersInbox.css";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../../Contexts/AuthContext";
 
 const OrdersNotapproved = () => {
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
+  const { idPerson } = useAuth();
 
   useEffect(() => {
     // Fetch unapproved orders
-    axios.get('http://eallaenjazapi.runasp.net/api/Request_Order/GET_LIST_ID_REQUEST_ORDER_BY_ID_Person1')
+    axios.get(`http://eallaenjazapi.runasp.net/api/Request_Order/GET_LIST_ID_REQUEST_ORDER_BY_ID_Person${idPerson}`)
       .then(response => {
         setOrders(response.data.sort((a, b) => a - b));
       })
       .catch(error => {
         console.error('Error fetching orders:', error);
       });
-  }, []);
+  }, [idPerson]);
 
   const handleOrderSelect = (orderId) => navigate(`/orders-not-approved/${orderId}`);
 

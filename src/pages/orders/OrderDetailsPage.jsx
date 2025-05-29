@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../../Contexts/AuthContext";
 import {
   BookOpen,
   PenTool,
@@ -40,8 +41,7 @@ const OrderDetailsPage = () => {
   const [orderDetails, setOrderDetails] = useState(null);
   const [requesterInfo, setRequesterInfo] = useState(null);
   const [activeStep, setActiveStep] = useState(1);
-
-  const studentProviderId = 2; // عدّل حسب السياق
+  const { idStudent: studentProviderId } = useAuth();
 
   useEffect(() => {
     axios

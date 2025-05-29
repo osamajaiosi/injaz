@@ -231,7 +231,7 @@ const StepTwo = ({ onNext, saveData, initialData }) => {
 
                     <div className="card-actions">
                       <Link
-                        to={`/show-info/${provider.iD_Student}`}
+                        to={`/show-info/${provider.iD_Serves}`}
                         className="provider-link"
                       >
                         عرض

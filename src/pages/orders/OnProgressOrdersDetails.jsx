@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
+import { useAuth } from "../../Contexts/AuthContext";
 import {
   BookOpen,
   PenTool,
@@ -35,6 +36,7 @@ const iconMap = {
 
 const OnProgressOrdersDetails = () => {
   const { id } = useParams();
+  const { idPerson } = useAuth();
   const [activeStep, setActiveStep] = useState(1);
   const [orderDetails, setOrderDetails] = useState(null);
   const [providers, setProviders] = useState([]);
@@ -49,6 +51,9 @@ const OnProgressOrdersDetails = () => {
   const [submittingFile, setSubmittingFile] = useState(false);
   const fileInputRef = useRef(null);
   const [attachedFiles, setAttachedFiles] = useState([]);
+  const [paymentInfo, setPaymentInfo] = useState(null);
+  const [transactions, setTransactions] = useState([]);
+  const [reservedBalance, setReservedBalance] = useState(null);
 
   const handleSend = async () => {
     if (newMessage.trim() === "") return;
@@ -56,7 +61,7 @@ const OnProgressOrdersDetails = () => {
       message_Text: newMessage,
       ID_Order: parseInt(id),
       ID_Serves_Provider: orderDetails?.iD_Student_Service_provider,
-      ID_Person_Presnter: 1,
+      ID_Person_Presnter: idPerson,
       date: new Date().toISOString(),
       sender_ID: 1,
     };
@@ -126,6 +131,20 @@ const OnProgressOrdersDetails = () => {
         .get(`http://eallaenjazapi.runasp.net/api/Files/GET_ALL_GET_ALL_FILES_BY_ID_ORDERS${id}`)
         .then((res) => setAttachedFiles(res.data))
         .catch((err) => console.error("فشل في جلب الملفات:", err));
+    }
+  }, [activeStep, id]);
+
+  useEffect(() => {
+    if (activeStep === 3) {
+      axios.get(`http://eallaenjazapi.runasp.net/api/Buyment/GET_INFO_Buyment_By_ID_Orders${id}`)
+        .then(res => setPaymentInfo(res.data))
+        .catch(err => console.error("Payment info error:", err));
+      axios.get(`http://eallaenjazapi.runasp.net/api/Transaction/GET_ALL_TRANSACTION_BY_ID_ORDERS${id}`)
+        .then(res => setTransactions(res.data))
+        .catch(err => console.error("Transactions error:", err));
+      axios.get(`http://eallaenjazapi.runasp.net/api/Transaction/GET_Knowing_the_outstanding_balance_in_the_system_By_Id_Order${id}`)
+        .then(res => setReservedBalance(res.data))
+        .catch(err => console.error("Reserved balance error:", err));
     }
   }, [activeStep, id]);
 
@@ -246,10 +265,39 @@ const OnProgressOrdersDetails = () => {
         </div>
       )}
 
-      {activeStep === 3 && (
+      {activeStep === 3 && paymentInfo && (
         <div className="step-content">
           <h3 className="section-title">تفاصيل الدفع</h3>
-          <p>سيتم إضافة تفاصيل الدفع قريباً</p>
+          <div className="payment-summary">
+            <div className="payment-data-title">بيانات الدفع</div>
+            <div><strong>رقم العملية:</strong> {paymentInfo.id}</div>
+            <div><strong>المبلغ المدفوع:</strong> {paymentInfo.amount} د.أ</div>
+            <div><strong>تاريخ الدفع:</strong> {new Date(paymentInfo.date).toLocaleDateString("ar-EG")}</div>
+            <div><strong>طريقة الدفع:</strong> دفع الكتروني</div>
+          </div>
+          <table className="transactions-table">
+            <thead>
+              <tr>
+                <th>رقم العملية</th>
+                <th>المبلغ</th>
+                <th>التاريخ</th>
+                <th>الإشراف</th>
+                <th>ملاحظات</th>
+              </tr>
+            </thead>
+            <tbody>
+              {transactions.map(tx => (
+                <tr key={tx.id}>
+                  <td>{tx.id}</td>
+                  <td>{tx.amount} د.أ</td>
+                  <td>{new Date(tx.transactionDate).toLocaleDateString("ar-EG")}</td>
+                  <td>{tx.supervisedBy}</td>
+                  <td>{tx.note}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="balance-summary"><strong>المبلغ المحجوز حالياً:</strong> {reservedBalance} د.أ</p>
         </div>
       )}
 
