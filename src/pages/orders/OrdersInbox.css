@@ -118,6 +118,13 @@
   font-size: 0.95rem;
   font-weight: bold;
   color: var(--text-color);
+  direction: rtl;
+  white-space: nowrap;
+  text-align: center;
+  display: block;
+  font-weight: bold;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 .steps-navigation .circle {
@@ -221,10 +228,25 @@
 .section-title {
   text-align: right;
   color: var(--primary-color);
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin-bottom: 1rem;
   border-bottom: 1px solid #eee;
   padding-bottom: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: none;
+  position: relative;
+  padding-left: 1rem;
+}
+.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 60%;
+  background: var(--primary-color);
 }
 
 /* معلومات الطلب */
@@ -727,4 +749,100 @@
   font-size: 0.9rem;
   color: #666;
   margin-top: 0.5rem;
+}
+
+/* Premium Card style for payment summary */
+.payment-summary {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid var(--primary-color);
+}
+.payment-summary > div {
+  font-size: 0.85rem;
+  color: var(--text-color);
+}
+.payment-summary strong {
+  color: var(--primary-color);
+}
+.payment-summary .payment-data-title {
+  flex-basis: 100%;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--primary-color);
+  padding-bottom: 0.5rem;
+}
+
+/* Transactions Table modern styling */
+.transactions-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow-x: auto;
+  display: block;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  margin-bottom: 1.5rem;
+}
+.transactions-table thead {
+  background: linear-gradient(90deg, var(--primary-color), #5cb85c);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.transactions-table th,
+.transactions-table td {
+  padding: 0.75rem 1rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #333;
+}
+.transactions-table th {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+.transactions-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+.transactions-table tbody tr:hover {
+  background-color: rgba(0,195,0,0.05);
+  cursor: default;
+}
+.transactions-table td:first-child {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+.transactions-table td:last-child {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+/* Balance summary card */
+.balance-summary {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-left: 4px solid var(--primary-color);
+}
+.balance-summary::before {
+  content: "\f06e";
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  color: #00c300;
+  font-size: 1.2rem;
 }

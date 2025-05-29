@@ -68,10 +68,10 @@ const CardInfo = () => {
           <label>الحالة:</label>
           <span
             className={
-              cardData.status_card === 1 ? "status-active" : "status-inactive"
+              cardData.status_card === 2 ? "status-active" : "status-inactive"
             }
           >
-            {cardData.status_card === 1 ? "نشطة" : "غير نشطة"}
+            {cardData.status_card === 2 ? "نشطة" : "غير نشطة"}
           </span>
         </div>
       </div>

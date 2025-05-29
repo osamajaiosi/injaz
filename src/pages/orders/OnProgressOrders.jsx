@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../Contexts/AuthContext";
 import "./OrdersInbox.css";
 
 const OnProgressOrders = () => {
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
-  const personid = 1; // TODO: replace with actual logged-in student ID
+  const { idPerson } = useAuth();
 
   useEffect(() => {
     axios
       .get(
-        `http://eallaenjazapi.runasp.net/api/Orders/GET_LIST_ID_ORDERS_In_PROGGRES_BY_ID_Person${personid}`
+        `http://eallaenjazapi.runasp.net/api/Orders/GET_LIST_ID_ORDERS_In_PROGGRES_BY_ID_Person${idPerson}`
       )
       .then((res) => {
         setOrders(res.data.sort((a, b) => a - b));
@@ -20,7 +21,7 @@ const OnProgressOrders = () => {
         "فشل في جلب الطلبات الجاري العمل عليها للطالب:",
         err
       ));
-  }, []);
+  }, [idPerson]);
 
   const handleOrderSelect = (orderId) => {
     navigate(`/in-progress-orders-details/${orderId}`);
