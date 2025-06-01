@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { Link } from "react-router-dom";
 import { useAuth } from "../Contexts/AuthContext";
 import "./Navbar.css";
 import UserDropdown from "../pages/UserDropdown";
@@ -9,8 +10,8 @@ function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [showOrdersMenu, setShowOrdersMenu] = useState(false);
 
-  const { userType, logout } = useAuth();
-  const navigate = useNavigate();
+  const { userType, idStudent } = useAuth();
+  const [hasUnread, setHasUnread] = useState(false);
   console.log(userType); // لرؤية قيمة userType في الكونسول
 
   const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
@@ -22,6 +23,20 @@ function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (userType === 'STUDENT' && idStudent) {
+      axios.get(
+        `http://eallaenjazapi.runasp.net/api/Request_Order/GET_LIST_ID_REQUEST_ORDER_BY_ID_STUDENT${idStudent}`
+      )
+      .then(res => {
+        const ids = res.data || [];
+        const clicked = JSON.parse(localStorage.getItem('clickedOrders')) || [];
+        setHasUnread(ids.some(id => !clicked.includes(id)));
+      })
+      .catch(() => {});
+    }
+  }, [userType, idStudent]);
 
   return (
     <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
@@ -39,31 +54,27 @@ function Navbar() {
           {userType === "guest" && (
             <>
               <Link to="/servicespage" className="nav-link" onClick={toggleMobileMenu}>
-                الخدمات
+                <i className="fas fa-paint-brush"></i> تصفح الخدمات
               </Link>
               <Link to="/about" className="nav-link" onClick={toggleMobileMenu}>
-                من نحن
+                <i className="fas fa-info-circle"></i> من نحن
               </Link>
               <Link to="/contact" className="nav-link" onClick={toggleMobileMenu}>
-                تواصل معنا
+                <i className="fas fa-envelope"></i> تواصل معنا
               </Link>
               <Link to="/login" className="nav-link" onClick={toggleMobileMenu}>
-                تسجيل الدخول
+                <i className="fas fa-sign-in-alt"></i> الدخول
               </Link>
               <Link to="/register" className="nav-link" onClick={toggleMobileMenu}>
-                إنشاء حساب
+                <i className="fas fa-user-plus"></i> إنشاء
               </Link>
             </>
           )}
 
           {/* -------------------- الخدمات لجميع المستخدمين المسجلين -------------------- */}
           {userType !== "guest" && (
-            <Link
-              to="/servicespage"
-              className="nav-link"
-              onClick={toggleMobileMenu}
-            >
-              الخدمات
+            <Link to="/servicespage" className="nav-link" onClick={toggleMobileMenu}>
+              <i className="fas fa-paint-brush"></i> تصفح الخدمات
             </Link>
           )}
           {userType !== "guest" && (
@@ -73,7 +84,7 @@ function Navbar() {
               onMouseLeave={() => setShowOrdersMenu(false)}
               onClick={() => setShowOrdersMenu(!showOrdersMenu)}
             >
-              طلباتي
+              <i className="fas fa-list"></i> طلباتي
               {showOrdersMenu && (
                 <ul className="orders-dropdown-menu">
                   <li>
@@ -99,38 +110,15 @@ function Navbar() {
           {/* -------------------- الطالب -------------------- */}
           {userType === "STUDENT" && (
             <>
-              <Link
-                to="/student-dashboard"
-                className="nav-link"
-                onClick={toggleMobileMenu}
-              >
-                لوحة التحكم{" "}
+              <Link to="/student-dashboard" className="nav-link" onClick={toggleMobileMenu}>
+                <i className="fas fa-th-large"></i> لوحة التحكم
               </Link>
-              <Link
-                to="/orders-inbox"
-                className="nav-link"
-                onClick={toggleMobileMenu}
-              >
-                الطلبات الواردة
+              <Link to="/orders-inbox" className="nav-link" onClick={toggleMobileMenu}>
+                <i className="fas fa-inbox"></i> الطلبات الواردة {hasUnread && <span className="unread-dot" />}
               </Link>
-              <Link
-                to="/add-request"
-                className="nav-link"
-                onClick={toggleMobileMenu}
-              >
-                إضافة طلب
+              <Link to="/add-request" className="nav-link" onClick={toggleMobileMenu}>
+                <i className="fas fa-plus-circle"></i> إضافة طلب
               </Link>
-             
-              <span
-                className="nav-link"
-                onClick={() => {
-                  logout();
-                  toggleMobileMenu();
-                  navigate("/");
-                }}
-              >
-                تسجيل الخروج
-              </span>
               <UserDropdown profilePath="/card-info" />
             </>
           )}
@@ -138,39 +126,12 @@ function Navbar() {
           {/* -------------------- يوزر عادي -------------------- */}
           {userType === "USER" && (
             <>
-              <Link
-                to="/add-request"
-                className="nav-link"
-                onClick={toggleMobileMenu}
-              >
-                إضافة طلب
+              <Link to="/add-request" className="nav-link" onClick={toggleMobileMenu}>
+                <i className="fas fa-plus-circle"></i> إضافة طلب
               </Link>
-              {/* روابط عامة تظهر لمستخدم عادي */}
-              <Link
-                to="/about"
-                className="nav-link"
-                onClick={toggleMobileMenu}
-              >
-                من نحن
+              <Link to="/contact" className="nav-link" onClick={toggleMobileMenu}>
+                <i className="fas fa-envelope"></i> اتصل بنا
               </Link>
-              <Link
-                to="/contact"
-                className="nav-link"
-                onClick={toggleMobileMenu}
-              >
-                اتصل بنا
-              </Link>
-              <span
-                className="nav-link"
-                onClick={() => {
-                  logout();
-                  toggleMobileMenu();
-                  navigate("/");
-                }}
-              >
-                تسجيل الخروج
-              </span>
-              {/* عرض Dropdown للمستخدم */}
               <UserDropdown profilePath="/profile" />
             </>
           )}

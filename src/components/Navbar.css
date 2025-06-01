@@ -58,6 +58,7 @@
 }
 
 .nav-link {
+  position: relative;
   color: var(--text-color);
   text-decoration: none;
   padding: 0.5rem 1rem;
@@ -69,6 +70,25 @@
 .nav-link:hover {
   background-color: var(--primary-color);
   color: white;
+}
+
+.nav-link:hover i {
+  color: #cdcd04;
+}
+
+.nav-link i {
+  color: var(--primary-color);
+  margin-right: 0.5rem;
+}
+
+.unread-dot {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  border-radius: 50%;
 }
 
 .services-link {
@@ -152,6 +172,15 @@
   color: white;
 }
 
+.dropdown-link:hover i {
+  color: #cdcd04;
+}
+
+.dropdown-link i {
+  color: var(--primary-color);
+  margin-right: 0.5rem;
+}
+
 .register-link {
   color: var(--text-color);
   text-decoration: none;
@@ -181,6 +210,44 @@
   background-color: var(--text-color);
   border-radius: 2px;
   transition: all var(--transition-speed) ease;
+}
+
+/* Luxurious dynamic icon styling */
+.nav-link i,
+.dropdown-link i,
+.orders-dropdown-menu .nav-link i {
+  display: inline-block;
+  font-size: 1.2rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  line-height: 2.2rem;
+  text-align: center;
+  border-radius: 50%;
+  /* Soft fade yellow glow */
+  background: radial-gradient(circle at center, rgba(205,205,4,0.15) 0%, rgba(205,205,4,0.05) 50%, rgba(205,205,4,0) 100%);
+  color: var(--primary-color);
+  transition: all var(--transition-speed) ease;
+}
+
+@keyframes iconSpinPulse {
+  0% {
+    transform: rotate(0deg) scale(1);
+    box-shadow: 0 0 0 rgba(205,205,4,0);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.5);
+    /* box-shadow: 0 0 16px rgba(205,205,4,0.8); */
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    box-shadow: 0 0 0 rgba(205,205,4,0);
+  }
+}
+
+.nav-link:hover i,
+.dropdown-link:hover i,
+.orders-dropdown-menu .nav-link:hover i {
+  animation: iconSpinPulse 1.2s ease-in-out;
 }
 
 /* Mobile Navigation */
@@ -360,6 +427,15 @@
 .orders-dropdown-menu .nav-link:hover {
   background-color: #28a745;
   color: #fff;
+}
+
+.orders-dropdown-menu .nav-link:hover i {
+  color: #cdcd04;
+}
+
+.orders-dropdown-menu .nav-link i {
+  color: var(--primary-color);
+  margin-right: 0.5rem;
 }
 
 .logo-img {

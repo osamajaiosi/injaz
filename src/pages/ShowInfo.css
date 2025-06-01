@@ -118,7 +118,7 @@
 
 .rating-box {
   margin-top: 2rem;
-  text-align: right;
+  text-align: center;
 }
 
 .rating-box label {
@@ -141,6 +141,11 @@
 
 .service-info-grid .info-item.full-width {
   grid-column: 1 / -1;
+}
+
+.service-info-grid .info-item {
+  justify-content: center;
+  text-align: center;
 }
 
 .service-title-center.with-icon {

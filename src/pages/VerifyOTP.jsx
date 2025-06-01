@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../Contexts/AuthContext';
 import './VerifyOTP.css';
@@ -139,7 +139,9 @@ function VerifyOTP() {
       const data = await res.json();
       console.log('API response:', data);
       const returnedType = data.account_Type;
-      login(returnedType, email);
+      const studentId = data.iD_student ?? data.id_student ?? null;
+      const personId = data.iD_Person ?? data.id_person ?? null;
+      login(returnedType, email, studentId, personId);
       if (returnedType === 'STUDENT') {
         navigate('/student-dashboard', { replace: true });
       } else {

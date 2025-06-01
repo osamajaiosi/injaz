@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../Contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const StepThree = ({ formData, onBack }) => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState("");
-  console.log("🔥 selectedProviders:", formData.selectedProviders);
+  console.log(" selectedProviders:", formData.selectedProviders);
 
   const { idPerson } = useAuth();
+  const navigate = useNavigate();
 
   const handleConfirm = () => {
     setShowConfirmModal(true);
@@ -39,7 +41,7 @@ const StepThree = ({ formData, onBack }) => {
 
         iD_Files: formData.file ? formData.file : null, // غيّره لاحقاً للرقم الصحيح بعد الرفع
       };
-      console.log("🚀 البيانات المرسلة إلى API:", payload);
+      console.log(" البيانات المرسلة إلى API:", payload);
 
       await axios.post(
         "http://eallaenjazapi.runasp.net/api/Request_Order/ADD_REQUEST_ORDER",
@@ -51,8 +53,12 @@ const StepThree = ({ formData, onBack }) => {
         }
       );
 
-      setSubmitSuccess(true);
       setShowConfirmModal(false);
+      localStorage.removeItem("addRequestState");
+      toast.success(
+        "تم إرسال طلبك بنجاح وسيتم مراجعته من قبل مزودي الخدمة. عند قبول الطلب، سيصلك إشعار رسمي عبر البريد الإلكتروني."
+      );
+      navigate("/home");
     } catch (error) {
       console.error("فشل الإرسال:", error.response?.data || error.message);
       setSubmitError("حدث خطأ أثناء إرسال الطلب. حاول مرة أخرى.");
@@ -65,9 +71,6 @@ const StepThree = ({ formData, onBack }) => {
     <div className="step-three-container">
       <h2>استكمال تأكيد الطلب</h2>
 
-      {submitSuccess && (
-        <p className="success-message">✅ تم إرسال الطلب بنجاح</p>
-      )}
       {submitError && <p className="error-message">{submitError}</p>}
 
       <div className="buttons-row">

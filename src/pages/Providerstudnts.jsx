@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import Rating from '@mui/material/Rating';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 import "./Providerstudnts.css";
 
 const Providerstudents = () => {
@@ -56,7 +59,17 @@ const Providerstudents = () => {
                   <div className="provider-info">
                     <h3>{provider.service_Address}</h3>
                     <p className="price">ابتداءً من {provider.price} دينار</p>
-                    <p className="rating">⭐ التقييم: {provider.avg_rating}</p>
+                    <div className="rating-box" dir="ltr">
+                      <Rating
+                        name="read-only"
+                        value={parseFloat(provider.avg_rating)}
+                        precision={0.5}
+                        readOnly
+                        sx={{ direction: 'ltr' }}
+                        icon={<StarIcon style={{ color: "#fbc02d" }} fontSize="inherit" />}
+                        emptyIcon={<StarBorderIcon style={{ color: "#ccc" }} fontSize="inherit" />}  
+                      />
+                    </div>
                     <Link
                       to={`/show-info/${provider.id}`}
                       className="provider-link"

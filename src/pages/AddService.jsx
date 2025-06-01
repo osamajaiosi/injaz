@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,6 +8,7 @@ import { useAuth } from "../Contexts/AuthContext";
 
 const AddService = () => {
   const { idStudent } = useAuth();
+  const navigate = useNavigate();
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [title, setTitle] = useState("");
@@ -121,11 +123,43 @@ const AddService = () => {
 
       await Promise.all(uploadPromises.filter(Boolean));
       toast.success("✅ تمت إضافة الخدمة والصور بنجاح!");
+      navigate('/student-dashboard');
     } catch (error) {console.log( idStudent);
       toast.error("❌ فشل في إرسال البيانات أو الصور.");
       console.error(error);
     }
   };
+
+  // check existing student service
+  const [hasService, setHasService] = useState(null);
+  useEffect(() => {
+    axios.get(`http://eallaenjazapi.runasp.net/api/Serves_Student/GET_Serves_Student_By_Id_Student${idStudent}`)
+      .then(res => {
+        console.log('Service-check API response:', res.data);
+        const data = res.data;
+        const exists = Array.isArray(data) ? data.length > 0 : Boolean(data);
+        console.log('Computed hasService:', exists);
+        setHasService(exists);
+      })
+      .catch(err => {
+        if (err.response?.status === 404) setHasService(false);
+        else { console.error("Error checking services:", err); setHasService(false); }
+      });
+  }, [idStudent]);
+
+  if (hasService === null) {
+    return <div>جارٍ التحقق من وجود خدمة...</div>;
+  }
+  if (hasService) {
+    return (
+      <div className="service-warning-container">
+        <div className="service-warning-card">
+          <h2>تنبيه</h2>
+          <p>لديك خدمة بالفعل، لا يمكنك إضافة أكثر من خدمة في الوقت الحالي.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="add-service-container">

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Contexts/AuthContext";
 import {
   BookOpen,
@@ -38,9 +38,11 @@ const iconMap = {
 
 const OrderDetailsPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [orderDetails, setOrderDetails] = useState(null);
   const [requesterInfo, setRequesterInfo] = useState(null);
   const [activeStep, setActiveStep] = useState(1);
+  const [accepted, setAccepted] = useState(false);
   const { idStudent: studentProviderId } = useAuth();
 
   useEffect(() => {
@@ -63,7 +65,10 @@ const OrderDetailsPage = () => {
   }, [id]);
 
   const handleAcceptOrder = async () => {
+    if (accepted) return;
+    setAccepted(true);
     try {
+      console.log(id);
       await axios.post(
         `http://eallaenjazapi.runasp.net/api/Orders/Accept_Request_orders_And_Add_Orders${id},${studentProviderId}`,
         {},
@@ -88,6 +93,7 @@ const OrderDetailsPage = () => {
           fontSize: "1rem",
           direction: "rtl",
         },
+        onClose: () => navigate("/orders-inbox"),
       });
     } catch (error) {
       toast.error("❌ حدث خطأ أثناء قبول الطلب", {
@@ -294,11 +300,12 @@ const OrderDetailsPage = () => {
           <div className="step-content">
             <h3 className="section-title">قبول أو رفض الطلب</h3>
             <div className="review-buttons">
-              <button className="select-button" onClick={handleAcceptOrder}>
+              <button
+                className="select-button"
+                onClick={handleAcceptOrder}
+                disabled={accepted}
+              >
                 <i className="fas fa-check-circle icon"></i> قبول الطلب
-              </button>
-              <button className="provider-link">
-                <i className="fas fa-times-circle icon"></i> رفض الطلب
               </button>
             </div>
           </div>
