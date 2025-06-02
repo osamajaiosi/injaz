@@ -4,12 +4,12 @@ import { useAuth } from "../Contexts/AuthContext";
 import "./StudentProfile.css";
 
 const UserProfile = () => {
-  const { userType, idPerson } = useAuth();
+  const { idPerson } = useAuth();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   // تخصيص حالة التعديل
-  const initialForm = { f_name: "", l_name: "", gender: "", email: "", phone: "", personal_profile: "", profileImage: "" };
+  const initialForm = { f_name: "", l_name: "", gender: "M", email: "", phone: "", personal_profile: "", profileImage: "" };
   const [formData, setFormData] = useState(initialForm);
   const [originalData, setOriginalData] = useState(initialForm);
   const [isEditing, setIsEditing] = useState(false);
@@ -17,7 +17,7 @@ const UserProfile = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
-    if (userType !== "USER" || idPerson == null) return;
+    if (idPerson == null) return;
     const fetchData = async () => {
       try {
         console.log(idPerson);
@@ -29,7 +29,7 @@ const UserProfile = () => {
         setFormData({
           f_name: response.data.f_name || "",
           l_name: response.data.l_name || "",
-          gender: response.data.gender,
+          gender: response.data.gender || "M",
           email: response.data.email || "",
           phone: response.data.phone || "",
           personal_profile: response.data.personal_profile || "",
@@ -38,7 +38,7 @@ const UserProfile = () => {
         setOriginalData({
           f_name: response.data.f_name || "",
           l_name: response.data.l_name || "",
-          gender: response.data.gender,
+          gender: response.data.gender || "M",
           email: response.data.email || "",
           phone: response.data.phone || "",
           personal_profile: response.data.personal_profile || "",
@@ -51,7 +51,7 @@ const UserProfile = () => {
       }
     };
     fetchData();
-  }, [userType, idPerson]);
+  }, [idPerson]);
 
   // دوال التعديل
   const handleChange = e => {
@@ -101,15 +101,6 @@ const UserProfile = () => {
   };
   const handleCancel = () => { setFormData(originalData); setErrors({}); setIsEditing(false); };
 
-  if (userType !== "USER") {
-    return (
-      <div className="unauthorized-message">
-        <h2>غير مصرح بالوصول</h2>
-        <p>هذه الصفحة متاحة فقط للمستخدمين العاديين</p>
-      </div>
-    );
-  }
-
   if (loading) {
     return <div className="loading">جاري تحميل البيانات...</div>;
   }
@@ -143,7 +134,7 @@ const UserProfile = () => {
             {isEditing ? (
               <>
                 <div className="form-grid">
-                  {["f_name","l_name","gender","phone","email"].map(field => (
+                  { ["f_name","l_name","gender","phone"].map(field => (
                     <div className="form-group" key={field}>
                       <label>{field==="f_name"?"الاسم الأول":field==="l_name"?"الاسم الأخير":field==="gender"?"الجنس":field==="phone"?"رقم الهاتف":"البريد الإلكتروني"}</label>
                       {field==="gender"?(

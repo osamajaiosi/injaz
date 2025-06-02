@@ -23,9 +23,9 @@ function Home() {
       <div className="show-more-container">
         <Link to="/servicespage" className="show-more-btn">عرض المزيد</Link>
       </div>
-      <StatisticsSection />
+      {/* <StatisticsSection /> */}    <CTASection userType={userType} />
       <HowItWorksSection />
-      <CTASection userType={userType} />
+      {/* <CTASection userType={userType} /> */}
     </div>
   );
 }

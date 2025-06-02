@@ -4,9 +4,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./UpdateService.css";
 import { useAuth } from "../Contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const UpdateService = () => {
   const { idStudent: studentId } = useAuth();
+  const navigate = useNavigate();
 
   const [serviceData, setServiceData] = useState(null);
   const [images, setImages] = useState([]);
@@ -159,6 +161,8 @@ const UpdateService = () => {
       if (allImagesUpdated) {
         // يظهر التوست فقط عند إتمام العملية بالكامل
         toast.success("✅ تم تحديث الخدمة والصور بنجاح!");
+        // الانتقال لصفحة عرض الخدمة بعد التحديث
+        navigate(`/dashboard/show-info/${serviceData.id}`);
       }
     } catch (error) {
       console.error("❌ تحديث الخدمة فشل:", error);

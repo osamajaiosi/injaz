@@ -67,7 +67,7 @@ function Login() {
           // set auth context to preserve IDs during activation
           const studentId = result.iD_Student ?? result.iD_student ?? null;
           login(result.account_Type, formData.email, studentId, result.iD_Person);
-          navigate('/activate-account', { state: { email: formData.email, formData, otpCode, personId: result.iD_Person, studentId }, replace: true });
+          navigate('/activate-account', { state: { email: formData.email, formData, otpCode, personId: result.iD_Person, studentId } });
           return;
         } catch (err) {
           console.error(err);

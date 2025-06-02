@@ -9,7 +9,6 @@ function ActivateAccount() {
   // retrieve state and fallback to storage
   const { email: stateEmail, otpCode: stateOtpState, personId: statePersonId } = location.state || {};
   const email = stateEmail || localStorage.getItem('otpEmail') || '';
-  const otpCodeState = stateOtpState || localStorage.getItem('otpCode') || '';
   // combine state and stored personId without mixing ?? and ||
   const personId = statePersonId || localStorage.getItem('otpPersonId') || '';
 
@@ -89,7 +88,8 @@ function ActivateAccount() {
       setError('الرجاء إدخال الرمز بالكامل');
       return;
     }
-    if (entered !== otpCodeState) {
+    const currentOtp = localStorage.getItem('otpCode');
+    if (entered !== currentOtp) {
       setError('الرمز خاطئ');
       return;
     }
@@ -115,6 +115,13 @@ function ActivateAccount() {
       setError('حدث خطأ أثناء تفعيل الحساب');
     }
   };
+
+  // redirect browser back button to login
+  useEffect(() => {
+    const handlePop = () => navigate('/login');
+    window.addEventListener('popstate', handlePop);
+    return () => window.removeEventListener('popstate', handlePop);
+  }, [navigate]);
 
   return (
     <div className="otp-container">
@@ -152,6 +159,18 @@ function ActivateAccount() {
             </span>
           )}
           <button type="button" className="btn resend-btn" onClick={handleResend} disabled={timer>0}>إعادة إرسال</button>
+          {resendClicked && (
+            <button
+              type="button"
+              className="btn support-btn"
+              onClick={() => window.open(
+                'https://wa.me/962799561057?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A9%20%D8%A8%D8%AE%D8%B5%D9%88%D8%B5%20%D8%AA%D8%BA%D9%8A%D9%8A%D8%B1%20%D8%A7%D9%84%D8%A8%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A5%D9%84%D9%83%D8%AA%D8%B1%D9%88%D9%86%D9%8A',
+                '_blank'
+              )}
+            >
+              التواصل مع الدعم الفني
+            </button>
+          )}
         </div>
       </form>
     </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,6 +9,7 @@ import { useAuth } from "../Contexts/AuthContext";
 const DeleteService = () => {
   const { serviceId } = useParams();
   const { idStudent } = useAuth();
+  const navigate = useNavigate();
 
   const [serviceData, setServiceData] = useState(null);
   const [mainServiceName, setMainServiceName] = useState("");
@@ -58,9 +59,7 @@ const DeleteService = () => {
         `http://eallaenjazapi.runasp.net/api/Serves_Student/Delete_Serves_Student ${serviceId}`
       );
       toast.success("✅ تم حذف الخدمة بنجاح!");
-      setTimeout(() => {
-        window.location.href = "/my-services";
-      }, 2000);
+      navigate('/student-dashboard');
     } catch (err) {
       console.error("فشل في حذف الخدمة:", err);
       toast.error("❌ فشل في تنفيذ عملية الحذف.");
@@ -111,7 +110,7 @@ const DeleteService = () => {
             </button>
             <button
               className="cancel-delete-btn"
-              onClick={() => window.history.back()}
+              onClick={() => navigate('/student-dashboard')}
             >
               إلغاء
             </button>

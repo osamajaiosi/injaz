@@ -215,3 +215,30 @@ select.input-error {
   border: 2px solid var(--error-color) !important;
   background-color: #fff2f2 !important;
 }
+
+/* Service warning card styles */
+.service-warning-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 1rem;
+}
+.service-warning-card {
+  max-width: 400px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  padding: 2rem;
+  text-align: center;
+  border-top: 4px solid var(--primary-color);
+}
+.service-warning-card h2 {
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+  font-size: 1.5rem;
+}
+.service-warning-card p {
+  color: rgba(0, 128, 0, 0.576);
+  font-size: 1.4rem;
+  line-height: 1.5;
+}

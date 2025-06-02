@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import "./OrdersInbox.css";
 import { ChevronLeft, BookOpen, PenTool, Code, Calendar, Heart, Stethoscope, Home, ShoppingCart, Globe, Truck, Users } from 'lucide-react';
 import { toast, ToastContainer } from 'react-toastify';
@@ -21,6 +21,7 @@ const UnapprovedOrderDetails = () => {
   const [provLoading, setProvLoading] = useState(true);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const navigate = useNavigate();
 
   const iconMap = {
     تعليمة: BookOpen,
@@ -157,6 +158,7 @@ const UnapprovedOrderDetails = () => {
               direction: "rtl",
             },
           });
+          setActiveStep(1); // go back to 'معلومات الطلب'
           console.log('Order updated successfully');
         })
         .catch(e => console.error('Save error:', e));
@@ -196,6 +198,7 @@ const UnapprovedOrderDetails = () => {
         },
       });
       setShowDeleteModal(false);
+      navigate('/orders-not-approved');
     } catch (e) {
       console.error('Delete error:', e);
     } finally {
@@ -307,7 +310,7 @@ const UnapprovedOrderDetails = () => {
                   </div>
                   <div className="provider-info">
                     <h3>{provider.fullName}</h3>
-                    <Link to={`/show-info/${provider.studentServiceProviderId}`} className="provider-link">
+                    <Link to={`/custom-show-info/${provider.studentServiceProviderId}`} className="provider-link">
                       عرض
                     </Link>
                   </div>

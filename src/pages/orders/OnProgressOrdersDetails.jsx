@@ -63,7 +63,7 @@ const OnProgressOrdersDetails = () => {
       ID_Serves_Provider: orderDetails?.iD_Student_Service_provider,
       ID_Person_Presnter: idPerson,
       date: new Date().toISOString(),
-      sender_ID: 1,
+      sender_ID: idPerson,
     };
     try {
       const res = await axios.post(

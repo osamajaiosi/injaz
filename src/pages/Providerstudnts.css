@@ -53,6 +53,10 @@
 
 .provider-info {
   padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .provider-info h3 {
@@ -69,6 +73,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  justify-content: center;
 }
 
 .rating {
@@ -76,6 +81,7 @@
   align-items: center;
   gap: 4px;
   margin-bottom: 1rem;
+  justify-content: center;
 }
 
 .rating-number {
@@ -93,6 +99,7 @@
   border-radius: 30px !important;
   font-weight: 500 !important;
   transition: background 0.3s ease !important;
+  margin: 1rem auto 0;
 }
 
 .provider-link:hover {

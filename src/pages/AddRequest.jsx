@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import StepOne from "./StepOne";
 import StepTwo from "./StepTwo";
 import StepThree from "./StepThree";
 import "./AddRequest.css";
 
 const AddRequest = () => {
-  const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({});
+  const savedState = JSON.parse(localStorage.getItem("addRequestState") || "null");
+  const [step, setStep] = useState(savedState?.step || 1);
+  const [formData, setFormData] = useState(savedState?.formData || {});
   const [shakeStep, setShakeStep] = useState(false);
   const [shakeSecondStep, setShakeSecondStep] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -120,6 +121,10 @@ const AddRequest = () => {
         return null;
     }
   };
+
+  useEffect(() => {
+    localStorage.setItem("addRequestState", JSON.stringify({ step, formData }));
+  }, [step, formData]);
 
   return (
     <div className="add-service-container">

@@ -1,14 +1,16 @@
 import { useState } from "react";
 import "./ChangePassword.css";
+import { useAuth } from "../Contexts/AuthContext";
 
 const ChangePassword = () => {
+  const { idPerson } = useAuth();
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const id_person = 1; // عدله حسب المستخدم المسجل
+  const id_person = idPerson; // جلب المعرف من الكونتكست
 
   const handleSubmit = async (e) => {
     e.preventDefault();

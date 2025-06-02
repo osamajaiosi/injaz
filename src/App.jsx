@@ -3,6 +3,8 @@ import { useAuth } from "./Contexts/AuthContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // الصفحات العامة
 import Home from "./pages/Home";
@@ -16,11 +18,10 @@ import ForgotPassword from "./pages/ForgotPassword"; // ✅ جديد
 import ForgotPasswordReset from "./pages/ForgotPasswordReset"; // ✅ جديد
 import ForgotPasswordOTP from "./pages/ForgotPasswordOTP"; // ✅ جديد
 import ActivateAccount from "./pages/ActivateAccount"; // ✅ جديد
-import UserProfile from "./pages/UserProfile";
+import Profile from "./pages/Profile"; // ✅ جديد
 
 // صفحات الطالب
 import StudentDashboard from "./pages/StudentDashboard";
-import StudentProfile from "./pages/StudentProfile";
 import ChangePassword from "./pages/ChangePassword";
 import CardInfo from "./pages/CardInfo";
 import StudentCompletedOrders from "./pages/orders/StudentCompletedOrders"; // ✅ جديد
@@ -66,6 +67,15 @@ function App() {
   const hideNavbar = ['/login','/register','/verify-otp','/complete-student-info','/pages/CompleteStudentInfo','/forgot-password','/forgot-password/otp','/forgot-password/reset','/verify-activation','/activate-account'].includes(location.pathname);
   return (
     <div className="app">
+      <ToastContainer
+        position="top-center"
+        autoClose={8000}
+        toastStyle={{
+          background: "var(--primary-color)",
+          color: "black",
+          transition: "opacity 0.5s ease-in-out"
+        }}
+      />
       {hideNavbar ? null : <Navbar />}
       <main className="main-content">
         <Routes>
@@ -95,19 +105,22 @@ function App() {
           <Route path="/complete-student-info" element={<CompleteStudentInfo />} />
           <Route path="/pages/CompleteStudentInfo" element={<CompleteStudentInfo />} />
           {/* unified profile route for STUDENT or USER */}
-          <Route path="/profile" element={
-            userType === 'STUDENT' ? <StudentProfile /> :
-            userType === 'USER' ? <UserProfile /> :
-            <Navigate to="/" replace />
-          } />
+          <Route path="/profile" element={<Profile />} />
           {/* صفحات الطالب */}
           <Route path="/student-dashboard" element={<StudentDashboard />} />
           <Route path="/change-password" element={<ChangePassword />} />
-          <Route path="/card-info" element={
-            <DashboardLayout activeTab="cards" openDropdown="">
-              <CardInfo />
-            </DashboardLayout>
-          } />
+          <Route
+            path="/card-info"
+            element={
+              userType === 'STUDENT' ? (
+                <DashboardLayout activeTab="cards" openDropdown="">
+                  <CardInfo />
+                </DashboardLayout>
+              ) : (
+                <CardInfo />
+              )
+            }
+          />
           <Route path="/student-completed-orders" element={<StudentCompletedOrders />} />
           <Route path="/student-completed-orders/:id" element={<StudentCompletedOrderDetails />} />
 
@@ -123,6 +136,8 @@ function App() {
           />
           {/* عرض تفاصيل الخدمة بدون DashboardLayout */}
           <Route path="/show-info/:serviceId" element={<ShowInfo />} />
+          {/* عرض تفاصيل مخصصة بدون DashboardLayout */}
+          <Route path="/custom-show-info/:serviceId" element={<CustomShowInfo />} />
           {/* legacy providerdetails route redirect to show-info */}
           <Route path="/providerdetails/:id" element={<ProviderDetailsRedirect />} />
 
