@@ -140,7 +140,7 @@ const StudentCompletedOrderDetails = () => {
     e.preventDefault();
     setIsSubmittingComplaint(true);
     try {
-      const response = await axios.post(
+      await axios.post(
         `http://eallaenjazapi.runasp.net/api/Complaints/Add_Complaints`,
         {
           id: 1,
@@ -150,7 +150,10 @@ const StudentCompletedOrderDetails = () => {
           ID_Stute: 1
         }
       );
-      setComplaintInfo(response.data);
+      const { data } = await axios.get(
+        `http://eallaenjazapi.runasp.net/api/Complaints/GET_Complaints_BY_ID_ORDERS${id}`
+      );
+      setComplaintInfo(data);
       toast.success(`تم إرسال الشكوى بنجاح!  `);
     } catch (err) {
       console.error("فشل في إرسال الشكوى:", err);
@@ -282,7 +285,7 @@ const StudentCompletedOrderDetails = () => {
                   </div>
                   <div className="provider-info">
                     <h3>{`${prov.f_name || prov.fullName} ${prov.l_name || ""}`}</h3>
-                    <Link to={`/show-info/${prov.studentServiceProviderId}`} className="provider-link">
+                    <Link to={`/custom-show-info/${prov.studentServiceProviderId}`} className="provider-link">
                       عرض
                     </Link>
                   </div>

@@ -4,6 +4,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./DeleteService.css";
+import "./AddsService.css";
 import { useAuth } from "../Contexts/AuthContext";
 
 const DeleteService = () => {
@@ -15,6 +16,7 @@ const DeleteService = () => {
   const [mainServiceName, setMainServiceName] = useState("");
   const [subServiceName, setSubServiceName] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [serviceNotFound, setServiceNotFound] = useState(false);
 
   useEffect(() => {
     if (idStudent == null) return;
@@ -25,7 +27,7 @@ const DeleteService = () => {
         );
         const data = res.data;
         if (!data) {
-          toast.error("🚫 لم يتم العثور على بيانات الخدمة.");
+          setServiceNotFound(true);
           return;
         }
         setServiceData(data);
@@ -46,12 +48,27 @@ const DeleteService = () => {
         const images = Array.isArray(imgRes.data) ? imgRes.data : [];
         if (images.length > 0) setImageUrl(images[0].imeg_Url);
       } catch (err) {
+        if (err.response && err.response.status === 404) {
+          setServiceNotFound(true);
+          return;
+        }
         console.error("خطأ في جلب البيانات:", err);
         toast.error("فشل في تحميل البيانات.");
       }
     };
     fetchData();
   }, [idStudent, serviceId]);
+
+  if (serviceNotFound) {
+    return (
+      <div className="service-warning-container">
+        <div className="service-warning-card">
+          <h2>تنبيه</h2>
+          <p>لا يوجد لديك خدمة بعد لحذفها</p>
+        </div>
+      </div>
+    );
+  }
 
   const handleDelete = async () => {
     try {

@@ -7,6 +7,7 @@ import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { useParams } from "react-router-dom";
 import { BookOpen, PenTool, Code, Calendar, Heart, Stethoscope, Home, ShoppingCart, Globe, Truck, Users, ChevronLeft } from "lucide-react";
+import "./AddsService.css";
 
 const iconMap = {
   تعليمة: BookOpen,
@@ -32,6 +33,7 @@ const CustomShowInfo = () => {
   const [images, setImages] = useState([]);
   const [rating, setRating] = useState(null);
   const [comments, setComments] = useState([]);
+  const [serviceNotFound, setServiceNotFound] = useState(false);
 
   const [mainServiceName, setMainServiceName] = useState("");
   const [subServiceName, setSubServiceName] = useState("");
@@ -42,24 +44,31 @@ const CustomShowInfo = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {  console.log("test",currentId);
-        // أولاً: جلب بيانات الخدمة
+      // أولاً: جلب بيانات الخدمة
+      let mainId, subId, studentId, serviceRecordId;
+      try {
         const serviceRes = await axios.get(
           `http://eallaenjazapi.runasp.net/api/Serves_Student/GET_Serves_Student_By_Id_Student${currentId}`
         );
         setServiceInfo(serviceRes.data);
-        // extract main and sub service IDs
-        const mainId = serviceRes.data.serveS_ID;
-        const subId = serviceRes.data.branch_Server_Id;
+        mainId = serviceRes.data.serveS_ID;
+        subId = serviceRes.data.branch_Server_Id;
+        serviceRecordId = serviceRes.data.id;
+        console.log("رقم الخدمة:", serviceRecordId);
         setMainServiceId(mainId);
         setSubServiceId(subId);
-        console.log("Main Service ID:", mainId);
-        console.log("Sub Service ID:", subId);
+        studentId = serviceRes.data.iD_Student;
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          setServiceNotFound(true);
+        } else {
+          console.error("فشل في جلب بيانات الخدمة:", error);
+        }
+        return;
+      }
 
-        const studentId = serviceRes.data.iD_Student;
-        console.log("SERVICE:", serviceRes.data);
-        console.log("STUDENT ID:", studentId);
-
+      // باقي الطلبات بعد التأكد من وجود الخدمة
+      try {
         // ثانياً: جلب بيانات الطالب
         const personalRes = await axios.get(
           `http://eallaenjazapi.runasp.net/api/Student_/GET_INFO_FROM_STUDENT_UNVIRSTY_PERSON_USED_SHOW_SERVES_BY_ID_STUDENT${studentId}`
@@ -80,7 +89,7 @@ const CustomShowInfo = () => {
 
         // خامساً: جلب الصور
         const imgRes = await axios.get(
-          `http://eallaenjazapi.runasp.net/api/Imege/GET_ALL_IMEGES_BY_ID_SERVES ${serviceRes.data.id}`
+          `http://eallaenjazapi.runasp.net/api/Imege/GET_ALL_IMEGES_BY_ID_SERVES ${serviceRecordId}`
         );
         setImages(Array.isArray(imgRes.data) ? imgRes.data : []);
 
@@ -102,6 +111,17 @@ const CustomShowInfo = () => {
 
     fetchData();
   }, [currentId]);
+
+  if (serviceNotFound) {
+    return (
+      <div className="service-warning-container">
+        <div className="service-warning-card">
+          <h2>تنبيه</h2>
+          <p>لا يوجد لديك خدمة ليتم عرضها</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!personalInfo || !serviceInfo)
     return <div className="show-info-container">جاري التحميل...</div>;
@@ -209,7 +229,9 @@ const CustomShowInfo = () => {
 
       {activeStep === 2 && (
         <>
-          <h2>المعلومات الشخصية</h2>
+          <h2 className="service-title-center with-icon">
+            <i className="fas fa-id-card"></i> المعلومات الشخصية
+          </h2>
           <div className="personal-info-section">
             <div className="personal-image">
               <img
@@ -219,25 +241,25 @@ const CustomShowInfo = () => {
             </div>
             <div className="personal-details">
               <div className="info-item">
-                <label>الاسم الكامل:</label>
+                <label><i className="fas fa-user"></i> الاسم الكامل:</label>
                 <div className="info-value-box">
                   {personalInfo?.fullName || ""}
                 </div>
               </div>
               <div className="info-item">
-                <label>البريد الإلكتروني:</label>
+                <label><i className="fas fa-envelope"></i> البريد الإلكتروني:</label>
                 <div className="info-value-box">
                   {personalInfo?.email || ""}
                 </div>
               </div>
               <div className="info-item">
-                <label>التخصص الجامعي:</label>
+                <label><i className="fas fa-graduation-cap"></i> التخصص الجامعي:</label>
                 <div className="info-value-box">
                   {personalInfo?.universityMajor || ""}
                 </div>
               </div>
               <div className="info-item">
-                <label>اسم الجامعة:</label>
+                <label><i className="fas fa-university"></i> اسم الجامعة:</label>
                 <div className="info-value-box">
                   {personalInfo?.universityName || ""}
                 </div>
@@ -251,7 +273,7 @@ const CustomShowInfo = () => {
         <>
           <h2>التقييم</h2>
           {rating !== null && (
-            <div className="rating-box enhanced-rating">
+            <div className="rating-box enhanced-rating" dir="ltr">
               <div className="rating-circle">
                 {parseFloat(rating).toFixed(1)}
               </div>
@@ -261,6 +283,7 @@ const CustomShowInfo = () => {
                 value={parseFloat(rating)}
                 precision={0.5}
                 readOnly
+                sx={{ direction: 'ltr' }}
                 icon={
                   <StarIcon style={{ color: "#fbc02d" }} fontSize="inherit" />
                 }
@@ -286,6 +309,7 @@ const CustomShowInfo = () => {
                       value={c.rating}
                       readOnly
                       precision={0.5}
+                      sx={{ direction: 'ltr' }}
                       icon={<StarIcon style={{ color: "#fbc02d" }} fontSize="inherit" />}
                       emptyIcon={<StarBorderIcon style={{ color: "#ccc" }} fontSize="inherit" />}
                     />

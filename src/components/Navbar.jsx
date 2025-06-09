@@ -40,6 +40,16 @@ function Navbar() {
 
   return (
     <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
+      {userType === "guest" && (
+        <div className="guest-edge">
+          <Link to="/login" className="nav-link" onClick={toggleMobileMenu}>
+            <i className="fas fa-sign-in-alt"></i> الدخول
+          </Link>
+          <Link to="/register" className="nav-link" onClick={toggleMobileMenu}>
+            <i className="fas fa-user-plus"></i> تسجيل
+          </Link>
+        </div>
+      )}
       <div className="nav-container">
         <Link to="/home" className="nav-logo">
           <img
@@ -59,14 +69,14 @@ function Navbar() {
               <Link to="/about" className="nav-link" onClick={toggleMobileMenu}>
                 <i className="fas fa-info-circle"></i> من نحن
               </Link>
+              <Link to="/privacy-policy" className="nav-link" onClick={toggleMobileMenu}>
+                <i className="fas fa-shield-alt"></i> سياسة الخصوصية
+              </Link>
+              <Link to="/faq" className="nav-link" onClick={toggleMobileMenu}>
+                <i className="fas fa-question-circle"></i> الأسئلة الشائعة
+              </Link>
               <Link to="/contact" className="nav-link" onClick={toggleMobileMenu}>
                 <i className="fas fa-envelope"></i> تواصل معنا
-              </Link>
-              <Link to="/login" className="nav-link" onClick={toggleMobileMenu}>
-                <i className="fas fa-sign-in-alt"></i> الدخول
-              </Link>
-              <Link to="/register" className="nav-link" onClick={toggleMobileMenu}>
-                <i className="fas fa-user-plus"></i> إنشاء
               </Link>
             </>
           )}
@@ -106,7 +116,7 @@ function Navbar() {
               )}
             </div>
           )}
-
+   
           {/* -------------------- الطالب -------------------- */}
           {userType === "STUDENT" && (
             <>
@@ -119,7 +129,6 @@ function Navbar() {
               <Link to="/add-request" className="nav-link" onClick={toggleMobileMenu}>
                 <i className="fas fa-plus-circle"></i> إضافة طلب
               </Link>
-              <UserDropdown profilePath="/card-info" />
             </>
           )}
 
@@ -132,10 +141,11 @@ function Navbar() {
               <Link to="/contact" className="nav-link" onClick={toggleMobileMenu}>
                 <i className="fas fa-envelope"></i> اتصل بنا
               </Link>
-              <UserDropdown profilePath="/profile" />
             </>
           )}
         </div>
+        {userType === "STUDENT" && <UserDropdown profilePath="/card-info" />}
+        {userType === "USER" && <UserDropdown profilePath="/profile" />}
 
         <div
           className={`burger-menu ${mobileMenuOpen ? "active" : ""}`}

@@ -10,6 +10,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Faq from "./pages/Faq";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import VerifyOTP from "./pages/VerifyOTP";
@@ -53,7 +55,7 @@ import UnapprovedOrderDetails from "./pages/orders/UnapprovedOrderDetails";
 // Layout للوحة التحكم
 import DashboardLayout from "./components/dashboard/DashboardLayout";
 import Reviews from "./pages/orders/Reviews";
-import DashboardContent from "./components/dashboard/DashboardContent";
+import Statistics from "./pages/Statistics"; // ✅ جديد
 
 // redirect component for legacy route
 const ProviderDetailsRedirect = () => {
@@ -94,6 +96,8 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/faq" element={<Faq />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/verify-otp" element={<VerifyOTP />} />
@@ -209,7 +213,7 @@ function App() {
             path="/sales-stats"
             element={
               <DashboardLayout activeTab="sales-stats" openDropdown="sales">
-                <DashboardContent activeTab="sales-stats" />
+                <Statistics />
               </DashboardLayout>
             }
           />

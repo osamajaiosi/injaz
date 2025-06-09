@@ -88,8 +88,58 @@
   resize: vertical;
 }
 
+/* Contact page glass-card styling for a luxurious, dynamic look */
+.contact-page {
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+}
+.contact-page .contact-container {
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  border-top: 4px solid var(--primary-color);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+.contact-page h1 {
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+.contact-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  color: #333;
+}
+.contact-social-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  width: fit-content;
+  margin: 0 auto 1.5rem;
+}
+.contact-email {
+  font-size: 1rem;
+  color: #333;
+}
+.contact-email a {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
 @media (max-width: 768px) {
   .contact-content {
     grid-template-columns: 1fr;
+  }
+  .contact-page .contact-container {
+    padding: 20px;
+  }
+  .contact-text {
+    font-size: 1rem;
   }
 }
