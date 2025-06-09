@@ -74,8 +74,7 @@ const CompletedOrderDetails = () => {
           )
           .catch(() =>
             setRatingInfo({
-              rating: 4.2,
-              comment: "تجربة رائعة! تم إنجاز الخدمة بسرعة وجودة ممتازة.",
+             
             })
           );
 

@@ -23,6 +23,7 @@ function StudentProfile() {
   const [selectedImage, setSelectedImage] = useState(null); // لرفع الصورة الجديدة
   const [formData, setFormData] = useState(initialForm);
   const [originalData, setOriginalData] = useState(initialForm);
+  const [stats, setStats] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -81,6 +82,12 @@ function StudentProfile() {
         });
 
         setOriginalData((prev) => ({ ...prev, ...formData }));
+
+        // fetch statistics
+        const statsRes = await axios.get(
+          `http://eallaenjazapi.runasp.net/api/Student_/ADMIN_GET_ALL_INFO_statistics_By_Id_Student${idStudent}`
+        );
+        setStats(statsRes.data);
       } catch (error) {
         console.error("فشل في تحميل البيانات:", error);
       }
@@ -239,20 +246,29 @@ function StudentProfile() {
           </div>
 
           <div className="profile-stats">
-            <div className="stat-item">
-              <span className="stat-label">المشاريع المنجزة</span>
-              <span className="stat-value">12</span>
-              {/* لاحقاً: اربطها بـ API المشاريع */}
-            </div>
-            <div className="stat-item">
-              <span className="stat-label">الطلبات الحالية</span>
-              <span className="stat-value">3</span>
-              {/* لاحقاً: API الطلبات الحالية */}
-            </div>
-            <div className="stat-item">
-              <span className="stat-label">التقييم</span>
-              <span className="stat-value">{formData.rating}/5</span>
-            </div>
+            {stats ? (
+              <>
+               
+                <div className="stat-item">
+                  <span className="stat-label">الطلبات الواردة</span>
+                  <span className="stat-value">{stats.totalRequests}</span>
+                </div>
+            
+                <div className="stat-item">
+                  <span className="stat-label">طلبات مكتملة</span>
+                  <span className="stat-value">{stats.completedOrders}</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-label">طلبات قيد التنفيذ</span>
+                  <span className="stat-value">{stats.in_progeers_Orders}</span>
+                </div>    <div className="stat-item">
+                  <span className="stat-label">التقييم</span>
+                  <span className="stat-value">{formData.rating}/5</span>
+                </div>
+              </>
+            ) : (
+              <div className="stat-loading">جارٍ تحميل الإحصائيات...</div>
+            )}
           </div>
         </div>
 

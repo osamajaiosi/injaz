@@ -19,7 +19,6 @@ const Reviews = () => {
       try {
         // Fetch rating
         const ratingRes = await axios.get(
-          console.log(idStudent),
           `http://eallaenjazapi.runasp.net/api/Rating/Get_Avrge_Rating_Sarves_By_Id_Student ${idStudent}`
         );
         setRating(ratingRes.data);
@@ -41,7 +40,7 @@ const Reviews = () => {
     <div className="show-info-container">
       <h2>التقييم والمراجعات</h2>
       {rating !== null && (
-        <div className="rating-box enhanced-rating">
+        <div className="rating-box enhanced-rating" dir="ltr">
           <div className="rating-circle">{parseFloat(rating).toFixed(1)}</div>
           <div className="rating-label">متوسط التقييمات</div>
           <Rating
@@ -49,6 +48,7 @@ const Reviews = () => {
             value={parseFloat(rating)}
             precision={0.5}
             readOnly
+            sx={{ direction: 'ltr' }}
             icon={<StarIcon style={{ color: "#fbc02d" }} fontSize="inherit" />}
             emptyIcon={<StarBorderIcon style={{ color: "#ccc" }} fontSize="inherit" />}
           />
@@ -67,6 +67,7 @@ const Reviews = () => {
                   value={c.rating}
                   readOnly
                   precision={0.5}
+                  sx={{ direction: 'ltr' }}
                   icon={<StarIcon style={{ color: "#fbc02d" }} fontSize="inherit" />}
                   emptyIcon={<StarBorderIcon style={{ color: "#ccc" }} fontSize="inherit" />}
                 />

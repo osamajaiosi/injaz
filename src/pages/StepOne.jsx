@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import "./AddRequest.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import { useAuth } from "../Contexts/AuthContext";
 
 const StepOne = ({ onNext, saveData, initialData }) => {
   const [form, setForm] = useState({
@@ -24,6 +26,8 @@ const StepOne = ({ onNext, saveData, initialData }) => {
   const [uploading, setUploading] = useState(false);
 
   const [errors, setErrors] = useState({});
+  const [balanceError, setBalanceError] = useState("");
+  const { idPerson } = useAuth();
 
   // Get all main services
   useEffect(() => {
@@ -142,24 +146,36 @@ const StepOne = ({ onNext, saveData, initialData }) => {
     }
   };
 
-  const handleSubmit = () => {
-    if (validate()) {
-      const selectedSubService = subServices.find(
-        (s) => s.id === parseInt(form.subService)
+  const handleSubmit = async () => {
+    setBalanceError("");
+    try {
+      const res = await axios.get(
+        `http://eallaenjazapi.runasp.net/api/Cradt_Card/GET_CRADET_CARD_BY_ID_Person?ID_Person=${idPerson}`
       );
-
-      saveData({
-        ...form,
-        locationId: form.location,
-        subServiceName: selectedSubService ? selectedSubService.name : "",
-      });
-      onNext();
+      const available = res.data.palnce;
+      if (available < parseFloat(form.price)) {
+        setBalanceError(`المبلغ المدفوع أكبر من المبلغ المتوفر. رصيدك الحالي ${available}`);
+        return;
+      }
+    } catch {
+      setBalanceError("خطأ في جلب الرصيد. حاول لاحقاً");
+      return;
     }
+    if (!validate()) return;
+    const selectedSubService = subServices.find(
+      (s) => s.id === parseInt(form.subService)
+    );
+    saveData({
+      ...form,
+      locationId: form.location,
+      subServiceName: selectedSubService ? selectedSubService.name : "",
+    });
+    onNext();
   };
 
   return (
-    <div className="step-box">
-      <label>عنوان الخدمة:</label>
+    <>
+      <label><i className="fas fa-pencil-alt"></i> عنوان الخدمة:</label>
       <input
         type="text"
         name="title"
@@ -169,7 +185,7 @@ const StepOne = ({ onNext, saveData, initialData }) => {
         placeholder="مثال: تصميم شعار احترافي"
       />
 
-      <label>الخدمة الرئيسية:</label>
+      <label><i className="fas fa-cog"></i> الخدمة الرئيسية:</label>
       <select
         name="mainService"
         value={form.mainService}
@@ -186,7 +202,7 @@ const StepOne = ({ onNext, saveData, initialData }) => {
 
       {subServices.length > 0 && (
         <>
-          <label>الخدمة الفرعية:</label>
+          <label><i className="fas fa-tags"></i> الخدمة الفرعية:</label>
           <select
             name="subService"
             value={form.subService}
@@ -205,7 +221,7 @@ const StepOne = ({ onNext, saveData, initialData }) => {
 
       {availableMode === "Both" && (
         <>
-          <label>نوع الخدمة:</label>
+          <label><i className="fas fa-sliders-h"></i> نوع الخدمة:</label>
           <select
             name="serviceMode"
             value={form.serviceMode}
@@ -221,7 +237,7 @@ const StepOne = ({ onNext, saveData, initialData }) => {
 
       {form.serviceMode === "خارجي" && (
         <>
-          <label>الموقع:</label>
+          <label><i className="fas fa-map-marker-alt"></i> الموقع:</label>
           <select
             name="location"
             value={form.location}
@@ -238,7 +254,7 @@ const StepOne = ({ onNext, saveData, initialData }) => {
         </>
       )}
 
-      <label>وصف العمل:</label>
+      <label><i className="fas fa-align-left"></i> وصف العمل:</label>
       <textarea
         name="description"
         value={form.description}
@@ -247,7 +263,7 @@ const StepOne = ({ onNext, saveData, initialData }) => {
         rows="3"
         placeholder="اشرح تفاصيل العمل المطلوب..."
       />
-      <label>وقت الإنجاز:</label>
+      <label><i className="fas fa-calendar-alt"></i> وقت الإنجاز:</label>
       <input
         type="text"
         name="deadline"
@@ -256,7 +272,7 @@ const StepOne = ({ onNext, saveData, initialData }) => {
         placeholder="مثال: يومين / 3 أيام / أسبوع"
         className={errors.deadline ? "input-error" : ""}
       />
-      <label>رفع ملف:</label>
+      <label><i className="fas fa-file-upload"></i> رفع ملف:</label>
       <input type="file" name="file" onChange={handleChange} />
       {uploading && <p>جارٍ رفع الملف...</p>}
       {form.file && <p style={{ color: "green" }}>✅ تم رفع الملف</p>}
@@ -271,10 +287,9 @@ const StepOne = ({ onNext, saveData, initialData }) => {
           className={`price-input ${errors.price ? "input-error" : ""}`}
        
         /> 
-      
-
+        {balanceError && <p className="error-message">⚠️ {balanceError}</p>}
       <button onClick={handleSubmit}>تابع</button>
-    </div>
+    </>
   );
 };
 

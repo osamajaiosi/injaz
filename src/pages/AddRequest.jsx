@@ -164,7 +164,7 @@ const AddRequest = () => {
         </p>
       )}
 
-      <div className="step-content">{renderStepContent()}</div>
+      <div className="step-content step-box">{renderStepContent()}</div>
     </div>
   );
 };

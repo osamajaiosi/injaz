@@ -252,7 +252,7 @@ const OnProgressOrdersDetails = () => {
                   </div>
                   <div className="provider-info">
                     <h3>{`${prov.f_name || prov.fullName} ${prov.l_name || ""}`}</h3>
-                    <Link to={`/show-info/${prov.studentServiceProviderId}`} className="provider-link">
+                    <Link to={`/custom-show-info/${prov.studentServiceProviderId}`} className="provider-link">
                       عرض
                     </Link>
                   </div>

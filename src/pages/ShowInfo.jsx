@@ -6,6 +6,7 @@ import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../Contexts/AuthContext";
 import { BookOpen, PenTool, Code, Calendar, Heart, Stethoscope, Home, ShoppingCart, Globe, Truck, Users, ChevronLeft } from "lucide-react";
 
 const iconMap = {
@@ -26,6 +27,7 @@ const iconMap = {
 const ShowInfo = () => {
   const { serviceId } = useParams();
   const currentId = serviceId;
+  const { userType } = useAuth();
 
   const [personalInfo, setPersonalInfo] = useState(null);
   const [serviceInfo, setServiceInfo] = useState(null);
@@ -209,7 +211,7 @@ const ShowInfo = () => {
 
       {activeStep === 2 && (
         <>
-          <h2>المعلومات الشخصية</h2>
+          <h2 className="service-title-center with-icon"><i className="fas fa-id-card"></i> المعلومات الشخصية</h2>
           <div className="personal-info-section">
             <div className="personal-image">
               <img
@@ -219,25 +221,27 @@ const ShowInfo = () => {
             </div>
             <div className="personal-details">
               <div className="info-item">
-                <label>الاسم الكامل:</label>
+                <label><i className="fas fa-user"></i> الاسم الكامل:</label>
                 <div className="info-value-box">
                   {personalInfo?.fullName || ""}
                 </div>
               </div>
-              <div className="info-item">
-                <label>البريد الإلكتروني:</label>
-                <div className="info-value-box">
-                  {personalInfo?.email || ""}
+              {userType !== "guest" && (
+                <div className="info-item">
+                  <label><i className="fas fa-envelope"></i> البريد الإلكتروني:</label>
+                  <div className="info-value-box">
+                    {personalInfo?.email || ""}
+                  </div>
                 </div>
-              </div>
+              )}
               <div className="info-item">
-                <label>التخصص الجامعي:</label>
+                <label><i className="fas fa-graduation-cap"></i> التخصص الجامعي:</label>
                 <div className="info-value-box">
                   {personalInfo?.universityMajor || ""}
                 </div>
               </div>
               <div className="info-item">
-                <label>اسم الجامعة:</label>
+                <label><i className="fas fa-university"></i> اسم الجامعة:</label>
                 <div className="info-value-box">
                   {personalInfo?.universityName || ""}
                 </div>

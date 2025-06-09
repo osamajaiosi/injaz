@@ -88,6 +88,29 @@
   font-size: 0.85rem;
   color: #666;
 }
+
+/* تنسيق زر اطلب الخدمة */
+.card-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.provider-link.request-button {
+  background-color: transparent !important;
+  color: var(--primary-color) !important;
+  border: 2px solid var(--primary-color) !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 30px !important;
+  text-decoration: none !important;
+}
+
+.provider-link.request-button:hover {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
 .provider-link {
   display: inline-flex !important;
   align-items: center !important;
@@ -105,6 +128,7 @@
 .provider-link:hover {
   background-color: #cdcd04 !important;
 }
+
 .provider-info h3:hover {
   color: #28a745; /* تغيير لون النص إلى الأخضر عند المرور بالماوس */
 }

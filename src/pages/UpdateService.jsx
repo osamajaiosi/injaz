@@ -3,6 +3,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./UpdateService.css";
+import "./AddsService.css";
 import { useAuth } from "../Contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +13,7 @@ const UpdateService = () => {
 
   const [serviceData, setServiceData] = useState(null);
   const [images, setImages] = useState([]);
+  const [serviceNotFound, setServiceNotFound] = useState(false);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -36,7 +38,7 @@ const UpdateService = () => {
         const data = serviceRes.data;
 
         if (!data || Object.keys(data).length === 0) {
-          toast.error("🚫 لم يتم العثور على بيانات لهذه الخدمة.");
+          setServiceNotFound(true);
           return;
         }
 
@@ -74,12 +76,28 @@ const UpdateService = () => {
           setImages([]);
         }
       } catch (error) {
+        if (error.response && error.response.status === 404) {
+          setServiceNotFound(true);
+          return;
+        }
         toast.error("فشل في تحميل البيانات.");
         console.error("❌ API Error:", error);
       }
     };
     fetchData();
   }, [studentId]);
+
+  if (serviceNotFound) {
+    return (
+      <div className="service-warning-container">
+        <div className="service-warning-card">
+          <h2>تنبيه</h2>
+          <p>لا يوجد لديك خدمة بعد لتعديلها</p>
+        </div>
+      </div>
+    );
+  }
+
   const handleSubmit = async () => {
     if (!serviceData) {
       toast.error("⚠️ لا توجد بيانات خدمة حالياً!");
@@ -109,7 +127,7 @@ const UpdateService = () => {
       return;
     }
 
-    const serviceStatus = isActive ? 3 : 1; // تحديد حالة الخدمة بناءً على الزر المضغوط
+    const serviceStatus = isActive ? 2 : 1; // تحديد حالة الخدمة بناءً على الزر المضغوط
 
     const payload = {
       id: serviceData.id,

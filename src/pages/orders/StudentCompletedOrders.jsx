@@ -22,7 +22,7 @@ const StudentCompletedOrders = () => {
 
   return (
     <div className="add-service-container">
-      <h2 className="section-title-main">الطلبات المكتملة للطالب</h2>
+      <h2 className="section-title-main">الطلبات المكتملة لطالب الخدمة</h2>
       <div className="orders-section">
         <div className="orders-grid">
           {orders.map((orderId, index) => (

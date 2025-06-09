@@ -66,6 +66,78 @@
   transform: scale(1.1);
 }
 
+/* Icon color for labels */
+.step-box label i,
+.add-service-container label i {
+  margin-right: 0.5rem;
+  color: var(--primary-color);
+}
+
+/* Enhanced form container */
+.step-box {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2.5rem 2rem;
+  background: #fff;
+  background: linear-gradient(135deg, #ffffff 0%, #f9fff9 100%);
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Styled labels */
+.step-box label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  background-color: rgba(0, 195, 0, 0.1);
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+}
+
+/* Styled inputs */
+.step-box input,
+.step-box textarea,
+.step-box select {
+  width: 100%;
+  margin-top: 0.6rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+.step-box input:focus,
+.step-box textarea:focus,
+.step-box select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(0, 195, 0, 0.2);
+  outline: none;
+}
+
+/* Styled button */
+.step-box button {
+  display: block;
+  margin: 2.5rem auto 0;
+  padding: 0.9rem 2.5rem;
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 195, 0, 0.3);
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.step-box button:hover {
+  background: #00a300;
+  transform: translateY(-2px);
+}
+
 /* الحقول */
 .add-service-container label {
   display: block;
@@ -447,4 +519,11 @@ select.input-error {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Ensure step-box spans full width of its parent */
+.add-service-container .step-content.step-box {
+  width: 100%;
+  max-width: 100%;
+  margin: 2rem 0;
 }
