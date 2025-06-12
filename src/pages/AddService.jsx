@@ -29,6 +29,7 @@ const AddService = () => {
   const [subServices, setSubServices] = useState([]);
   const [selectedMainServiceId, setSelectedMainServiceId] = useState("");
   const [selectedSubServiceId, setSelectedSubServiceId] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     axios
@@ -63,6 +64,9 @@ const AddService = () => {
   };
 
   const handleSubmit = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
     const newErrors = {};
     if (!imageFile) newErrors.imageFile = true;
     if (!title.trim()) newErrors.title = true;
@@ -81,6 +85,7 @@ const AddService = () => {
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) {
       toast.error("يرجى تعبئة جميع الحقول المطلوبة.");
+      setIsSubmitting(false);
       return;
     }
 
@@ -127,6 +132,8 @@ const AddService = () => {
     } catch (error) {console.log( idStudent);
       toast.error("❌ فشل في إرسال البيانات أو الصور.");
       console.error(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -335,7 +342,9 @@ const AddService = () => {
         />
       </div>
 
-      <button onClick={handleSubmit}>إضافة الخدمة</button>
+      <button onClick={handleSubmit} disabled={isSubmitting}>
+        {isSubmitting ? "جاري الإضافة..." : "إضافة الخدمة"}
+      </button>
     </div>
   );
 };

@@ -62,7 +62,7 @@ const CardInfo = () => {
         </div>
         <div className="card-field">
           <label>رمز الأمان:</label>
-          <span>{cardData.pin_Code}</span>
+          <span>{'•'.repeat(cardData.pin_Code?.length || 0)}</span>
         </div>
         <div className="card-field status-row">
           <label>الحالة:</label>
