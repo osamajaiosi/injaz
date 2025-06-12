@@ -102,7 +102,7 @@ const OnProgressOrdersDetails = () => {
         }
       })
       .catch((err) => console.error("فشل في جلب تفاصيل الطلب:", err));
-  }, [id]);
+  }, [id, idPerson]);
 
   // جلب جميع الرسائل باستخدام API
   useEffect(() => {
@@ -111,9 +111,8 @@ const OnProgressOrdersDetails = () => {
         const res = await axios.get(
           `http://eallaenjazapi.runasp.net/api/Chat_Messages/Get_All_Message_By_Id_Order${id}`
         );
-        const personId = 1; // معرف المرسل (المستخدم) مؤقت
         const msgs = res.data.map((msg) => ({
-          sender: msg.sender_ID === personId ? 'user' : 'provider',
+          sender: msg.sender_ID === idPerson ? 'user' : 'provider',
           text: msg.message_Text,
           time: new Date(msg.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         }));
